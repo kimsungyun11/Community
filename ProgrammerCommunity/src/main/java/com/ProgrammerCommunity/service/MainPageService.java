@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.MainPageMapper;
 import com.ProgrammerCommunity.model.dto.response.MainPageSearchResponse;
-import com.ProgrammerCommunity.model.entity.User;
+import com.ProgrammerCommunity.model.entity.Users;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,14 +18,18 @@ public class MainPageService {
 
 	private MainPageMapper mainPageMapper;
 
-	public List<MainPageSearchResponse> searchMain(String search) {
+	// 검색 기능
+	public List<MainPageSearchResponse> searchMain(String search, int pageSize, int pageNum) {
 		
-		if ( search == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "검색어가 없음");
-		}
-		
-		
-		return null;
-	}
+		// 검색어가 없으면 예외발생
+        if ( search == null ) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "검색어가 없음");
+        }
+        
+        // 페이징을 위한 offset 계산
+        int offset = (pageNum - 1) * pageSize;
+        
+        return mainPageMapper.mainPageSearch(search, pageSize, offset);
+    }
 	
 }

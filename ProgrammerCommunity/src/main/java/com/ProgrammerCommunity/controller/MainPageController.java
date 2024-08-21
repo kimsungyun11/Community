@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.model.dto.response.MainPageSearchResponse;
@@ -32,14 +33,20 @@ public class MainPageController {
 	
 	// 검색 기능
 	@PostMapping("/search")
-	public String searchMain(@RequestBody String search, Model model ) {
-		
-		List<MainPageSearchResponse> list = mainPageService.searchMain( search );
-		
-		model.addAttribute("search", list);
-		
-		return search;
-	}
+    public String searchMain(@RequestParam String search, 
+                             Model model,
+                             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                             @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
+        List<MainPageSearchResponse> results = mainPageService.searchMain(search, pageSize, pageNum);
+        
+        // 검색 결과
+        model.addAttribute("searchResults", results);
+        
+        // 검색어
+        model.addAttribute("searchKeyword", search);
+        
+        return "searchResults";
+    }
 	
 	
 }

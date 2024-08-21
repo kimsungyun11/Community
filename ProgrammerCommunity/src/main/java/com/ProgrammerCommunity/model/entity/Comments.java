@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class Comment {
+public class Comments {
 	private Integer commentId;
     private Integer postId;
     private Integer userId;
