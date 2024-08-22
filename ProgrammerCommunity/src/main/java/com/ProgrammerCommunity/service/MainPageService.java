@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MainPageService {
 
-	private MainPageMapper mainPageMapper;
+	private final MainPageMapper mainPageMapper;
 
 	// 검색 기능
 	public List<MainPageSearchResponse> searchMain(String search, int pageSize, int pageNum) {

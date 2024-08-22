@@ -26,14 +26,14 @@ public class MainPageController {
 	private final MainPageService mainPageService;
 	
 	// 메인 페이지 이동
-	@GetMapping("/")
+	@GetMapping("")
 	public String index() {
 		return "index";
 	}
 	
 	// 검색 기능
-	@PostMapping("/search")
-    public String searchMain(@RequestParam String search, 
+	@GetMapping("/search")
+    public String searchMain(@RequestParam("search") String search, 
                              Model model,
                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
