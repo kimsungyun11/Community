@@ -1,0 +1,36 @@
+@charset "UTF-8";
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+.form-signin {
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+.form-signin input[type="text"], .form-signin input[type="password"] {
+    margin-bottom: 15px;
+    font-size: 18px;
+    height: 60px;
+}
+.btn-lg {
+    font-size: 20px;
+    padding: 15px;
+}
+.social-btn {
+    font-size: 18px;
+    padding: 12px;
+}
