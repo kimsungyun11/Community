@@ -2,14 +2,14 @@ package com.ProgrammerCommunity.service;
 
 import org.springframework.stereotype.Service;
 
-import com.ProgrammerCommunity.mapper.LoginMapper;
+import com.ProgrammerCommunity.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class UserService {
 
-	private final LoginMapper loginMapper;
+	private final UserMapper UserMapper;
 	
 }
