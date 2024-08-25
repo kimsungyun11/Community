@@ -18,15 +18,15 @@ public class MainPageService {
 
 	private final MainPageMapper mainPageMapper;
 
-	// ê²€ìƒ‰ ê¸°ëŠ¥
+	// °Ë»ö±â´É
 	public List<MainPageSearchResponse> searchMain(String search, int pageSize, int pageNum) {
 		
-		// ê²€ìƒ‰ì–´ê°€ ì—†ìœ¼ë©´ ì˜ˆì™¸ë°œìƒ
+		// °Ë»ö¾î°¡ ¾øÀ¸¸é ¿¡·¯
         if ( search == null ) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ê²€ìƒ‰ì–´ê°€ ì—†ìŒ");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "°Ë»ö¾î°¡ ¾øÀ½");
         }
         
-        // í˜ì´ì§•ì„ ìœ„í•œ offset ê³„ì‚°
+        // offset ¼³Á¤
         int offset = (pageNum - 1) * pageSize;
         
         return mainPageMapper.mainPageSearch(search, pageSize, offset);
