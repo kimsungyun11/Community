@@ -2,10 +2,14 @@ package com.ProgrammerCommunity.service;
 
 import java.time.LocalDateTime;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.UserMapper;
+import com.ProgrammerCommunity.model.dto.request.LoginRequest;
 import com.ProgrammerCommunity.model.dto.request.SignupRequest;
+import com.ProgrammerCommunity.model.entity.Users;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +41,19 @@ public class UserService {
 		
 		userMapper.userSingup(dto, createdAt);
 	}
+
+	// 로그인 기능
+	public Users login( LoginRequest dto ) {
+		
+		Users users = userMapper.findByUsernameAndPassword( dto.getEmail(), dto.getPassword() );
+		
+		if ( users == null ) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "로그인 실패" );
+		}
+		
+		return users;
+	}
+
+	
 
 }

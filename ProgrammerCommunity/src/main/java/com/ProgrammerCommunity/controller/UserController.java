@@ -2,17 +2,17 @@ package com.ProgrammerCommunity.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.ProgrammerCommunity.model.dto.request.LoginRequest;
 import com.ProgrammerCommunity.model.dto.request.SignupRequest;
 import com.ProgrammerCommunity.model.entity.Users;
 import com.ProgrammerCommunity.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +35,7 @@ public class UserController {
 		return "signup";
 	}
 
+	
 	// 회원가입 기능
 	@PostMapping("/signup")
 	public String signup(@ModelAttribute("SignupRequest") @Valid SignupRequest dto, Model model) {
@@ -48,9 +49,24 @@ public class UserController {
 	}
 
 	// 로그인 기능
-	@PostMapping("/login")
-	public String login() {
-		return "";
+	@PostMapping("")
+	public String login( @ModelAttribute("LoginRequest") LoginRequest dto, Model model, HttpSession session ) {
+		
+		System.out.println( "이메일 : " + dto.getEmail() + " 비밀번호 : " + dto.getPassword() );
+		
+		Users user = userService.login(dto);
+		
+        session.setAttribute("user", user);
+        
+        return "redirect:/main";
 	}
+	
+	@GetMapping("/logout")
+    public String logout(HttpSession session) {
+		// 세션 무효화
+        session.invalidate();
+        
+        return "redirect:/login";
+    }
 
 }
