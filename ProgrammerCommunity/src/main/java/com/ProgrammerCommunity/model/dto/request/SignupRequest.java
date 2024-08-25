@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SingupRequest {
+public class SignupRequest {
 	
 	@NotBlank(message = "닉네임은 필수 입력 값입니다.")
     @Size(max = 20, message = "닉네임은 최대 20자까지 허용됩니다.")
