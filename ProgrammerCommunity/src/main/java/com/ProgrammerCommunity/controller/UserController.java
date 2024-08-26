@@ -49,10 +49,8 @@ public class UserController {
 	}
 
 	// 로그인 기능
-	@PostMapping("")
+	@PostMapping
 	public String login( @ModelAttribute("LoginRequest") LoginRequest dto, Model model, HttpSession session ) {
-		
-		System.out.println( "이메일 : " + dto.getEmail() + " 비밀번호 : " + dto.getPassword() );
 		
 		Users user = userService.login(dto);
 		
@@ -61,6 +59,7 @@ public class UserController {
         return "redirect:/main";
 	}
 	
+	// 로그아웃 기능
 	@GetMapping("/logout")
     public String logout(HttpSession session) {
 		// 세션 무효화

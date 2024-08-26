@@ -43,15 +43,15 @@ public class UserService {
 	}
 
 	// 로그인 기능
-	public Users login( LoginRequest dto ) {
+	public Users login(LoginRequest dto) {
 		
-		Users users = userMapper.findByUsernameAndPassword( dto.getEmail(), dto.getPassword() );
-		
-		if ( users == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "로그인 실패" );
-		}
-		
-		return users;
+	    Users users = userMapper.findByUsernameAndPassword(dto.getEmail(), dto.getPassword());
+	    
+	    if (users == null) {
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 실패");
+	    }
+	    
+	    return users;
 	}
 
 	

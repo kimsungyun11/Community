@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header(title)">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title th:text="${title}">Default Title</title>
-<!-- 부트스트랩 CSS -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title th:text="${title}">Default Title</title>
+    <!-- 부트스트랩 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 커스텀 CSS -->
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
-	<nav th:fragment="navbar" class="navbar navbar-expand-lg bg-light">
+<nav th:fragment="navbar" class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/main}">Navbar</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -25,20 +25,37 @@
                 <li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/}">공지사항</a></li>
             </ul>
-            <form class="d-flex me-2" role="search" th:action="@{/main/search}" method="get">
+            <form class="d-flex me-2 search-form" role="search" th:action="@{/main/search}" method="get">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            <div class="d-flex">
-                <a th:href="@{/login/loginpage}" class="btn btn-outline-primary me-2">로그인</a>
-                <a th:href="@{/login/signuppage}" class="btn btn-primary">회원가입</a>
+            <div class="d-flex align-items-center">
+                <!-- 로그인 상태에 따라 다른 내용 표시 -->
+                <th:block th:if="${session.user != null}">
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img th:src="@{/images/penguin.png}" alt="Profile" width="32" height="32" class="rounded-circle me-2">
+                            <span th:text="${session.user.username}" class="username me-2">사용자명</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="dropdownUser1">
+                            <li><a class="dropdown-item" href="#">내가 쓴 글</a></li>
+                            <li><a class="dropdown-item" href="#">저장한 페이지</a></li>
+                            <li><a class="dropdown-item" href="#">정보 수정</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
+                        </ul>
+                    </div>
+                </th:block>
+                <th:block th:unless="${session.user != null}">
+                    <a th:href="@{/login/loginpage}" class="btn btn-outline-primary me-2">로그인</a>
+                    <a th:href="@{/login/signuppage}" class="btn btn-primary">회원가입</a>
+                </th:block>
             </div>
         </div>
     </div>
 </nav>
 
-	<!-- 부트스트랩 JS 번들 (Popper 포함) -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 부트스트랩 JS 번들 (Popper 포함) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

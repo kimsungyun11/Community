@@ -1,0 +1,39 @@
+@charset "UTF-8";
+/* 추가적인 네비게이션 바 스타일 */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+/* 프로필 이미지 스타일 */
+.profile-image {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+
+/* 사용자 이름 스타일 */
+.username {
+    font-weight: bold;
+    color: #333;
+}
+
+/* 로그인/회원가입 버튼 스타일 */
+.btn-outline-primary, .btn-primary {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover, .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+}
+
+/* 검색 폼 스타일 */
+.search-form .form-control {
+    border-radius: 20px 0 0 20px;
+}
+
+.search-form .btn {
+    border-radius: 0 20px 20px 0;
+}

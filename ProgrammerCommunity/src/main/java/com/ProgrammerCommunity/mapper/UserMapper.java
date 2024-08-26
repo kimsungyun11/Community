@@ -29,8 +29,8 @@ public interface UserMapper {
     boolean existsByEmail(String email);
 
     // 로그인 기능
-    @Select("SELECT * FROM users WHERE email = #{email} AND password_hash = #{password}")
-	Users findByUsernameAndPassword(String email, String password);
+    @Select("SELECT * FROM users WHERE email = #{email} AND password = #{password}")
+    Users findByUsernameAndPassword(@Param("email") String email, @Param("password") String password);
 
     
     
