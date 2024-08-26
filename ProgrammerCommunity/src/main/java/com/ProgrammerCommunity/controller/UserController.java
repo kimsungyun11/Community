@@ -65,7 +65,7 @@ public class UserController {
 		// 세션 무효화
         session.invalidate();
         
-        return "redirect:/login";
+        return "redirect:/login/loginpage";
     }
 
 }
