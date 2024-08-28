@@ -20,4 +20,9 @@ public class QnaPostController {
 		return "qnaBoard";
 	}
 	
+	@GetMapping("/qnaWrite")
+	public String qnaWrite() {
+		return "qnaWrite";
+	}
+	
 }
