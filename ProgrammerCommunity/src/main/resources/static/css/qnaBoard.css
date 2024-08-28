@@ -1,0 +1,43 @@
+@charset "UTF-8";
+.tag {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #0d6efd;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    background-color: #e7f1ff;
+    margin-right: 0.5em;
+}
+
+.post-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.post-meta {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.post-summary {
+    font-size: 0.95em;
+    color: #444;
+}
+
+.post-stats {
+    font-size: 0.85em;
+    color: #888;
+}
+
+.pagination {
+    margin-top: 2rem;
+}
+
+.sort-select {
+    width: auto;
+}

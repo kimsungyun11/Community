@@ -12,8 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Posts {
-	private Integer postId;
-    private Integer userId;
+	private int postId;
+    private int userId;
+    private BoardType boardType;
     private String title;
     private String content;
     private String tags;
