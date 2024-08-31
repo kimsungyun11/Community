@@ -19,7 +19,9 @@
 				</div>
 
 				<main class="form-signin">
-					<form th:action="@{/login}" method="post">
+					<form th:action="@{/login/login}" method="post">
+						<div th:if="${error}" class="alert alert-danger"
+							th:text="${error}"></div>
 						<h1 class="h2 mb-4 fw-normal text-center">로그인</h1>
 
 						<div class="form-floating mb-3">

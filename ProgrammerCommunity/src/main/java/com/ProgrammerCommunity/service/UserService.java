@@ -44,14 +44,11 @@ public class UserService {
 
 	// 로그인 기능
 	public Users login(LoginRequest dto) {
-		
-	    Users users = userMapper.findByUsernameAndPassword(dto.getEmail(), dto.getPassword());
-	    
-	    if (users == null) {
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인 실패");
+	    Users user = userMapper.findByUsernameAndPassword(dto.getEmail(), dto.getPassword());
+	    if (user == null) {
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이메일 또는 비밀번호가 올바르지 않습니다.");
 	    }
-	    
-	    return users;
+	    return user;
 	}
 
 	

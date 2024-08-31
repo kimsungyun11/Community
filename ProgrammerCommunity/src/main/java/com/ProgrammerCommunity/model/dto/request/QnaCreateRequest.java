@@ -12,15 +12,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class QnaCreateRequest {
+	private Integer userId;
 	private BoardType boardType;
-	
-	@NotBlank
+
+    @NotBlank(message = "제목은 필수 입력 항목입니다.")
     private String title;
-	
-	@NotBlank
+
+    @NotBlank(message = "내용은 필수 입력 항목입니다.")
     private String content;
-	
-	@NotBlank
+
+    @NotBlank(message = "태그는 필수 입력 항목입니다.")
     private String tags;
+
     private LocalDateTime createdAt;
 }

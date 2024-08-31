@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.model.dto.request.LoginRequest;
 import com.ProgrammerCommunity.model.dto.request.SignupRequest;
@@ -25,9 +26,10 @@ public class UserController {
 
 	// 로그인 페이지 이동
 	@GetMapping("/loginpage")
-	public String loginPage() {
-		return "login";
-	}
+	public String loginpage(Model model) {
+        model.addAttribute("LoginRequest", new LoginRequest());
+        return "login";  // 여기서 "login"은 템플릿 이름입니다.
+    }
 
 	// 회원가입 페이지 이동
 	@GetMapping("/signuppage")
@@ -49,14 +51,16 @@ public class UserController {
 	}
 
 	// 로그인 기능
-	@PostMapping
-	public String login( @ModelAttribute("LoginRequest") LoginRequest dto, Model model, HttpSession session ) {
-		
-		Users user = userService.login(dto);
-		
-        session.setAttribute("user", user);
-        
-        return "redirect:/main";
+	@PostMapping("/login")
+	public String login(@ModelAttribute("LoginRequest") LoginRequest dto, Model model, HttpSession session) {
+	    try {
+	        Users user = userService.login(dto);
+	        session.setAttribute("user", user);
+	        return "redirect:/main";
+	    } catch (ResponseStatusException e) {
+	        model.addAttribute("error", "로그인 실패: " + e.getReason());
+	        return "login";  // "redirect:/login" 대신 "login"을 반환
+	    }
 	}
 	
 	// 로그아웃 기능
