@@ -40,26 +40,28 @@ public class UserController {
 	
 	// 회원가입 기능
 	@PostMapping("/signup")
-	public String signup(@ModelAttribute("SignupRequest") @Valid SignupRequest dto, Model model) {
-		String errorMessage = userService.check(dto);
-		if (errorMessage != null) {
-			model.addAttribute("errorMessage", errorMessage);
-			return "signup";
-		}
-		userService.signup(dto);
-		return "redirect:/login/loginpage";
-	}
+    public String signup(@ModelAttribute("SignupRequest") @Valid SignupRequest dto, Model model) {
+        try {
+            userService.signup(dto);
+            return "redirect:/login/loginpage";
+        } catch (ResponseStatusException e) {
+            model.addAttribute("errorMessage", e.getReason());
+            return "signup";
+        }
+    }
 
 	// 로그인 기능
 	@PostMapping("/login")
 	public String login(@ModelAttribute("LoginRequest") LoginRequest dto, Model model, HttpSession session) {
 	    try {
 	        Users user = userService.login(dto);
-	        session.setAttribute("user", user);
+	        session.setAttribute("userId", user.getUserId()); // "userId"로 변경
+	        System.out.println("Login - userId set in session: " + user.getUserId());
+	        session.setAttribute("user", user); // 전체 사용자 객체도 저장 (필요시)
 	        return "redirect:/main";
 	    } catch (ResponseStatusException e) {
 	        model.addAttribute("error", "로그인 실패: " + e.getReason());
-	        return "login";  // "redirect:/login" 대신 "login"을 반환
+	        return "login"; // "redirect:/login" 대신 "login"을 반환
 	    }
 	}
 	

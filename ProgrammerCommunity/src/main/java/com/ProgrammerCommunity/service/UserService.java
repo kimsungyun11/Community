@@ -10,6 +10,7 @@ import com.ProgrammerCommunity.mapper.UserMapper;
 import com.ProgrammerCommunity.model.dto.request.LoginRequest;
 import com.ProgrammerCommunity.model.dto.request.SignupRequest;
 import com.ProgrammerCommunity.model.entity.Users;
+import com.ProgrammerCommunity.util.PasswordHasher;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,35 +22,33 @@ public class UserService {
 	private final UserMapper userMapper;
 	
 	// 닉네임, 이메일 중복 확인
-	public String check(@Valid SignupRequest dto) {
-
-		if (userMapper.existsByUsername(dto.getUsername())) {
-			return "중복 된 닉네임 입니다.";
-		}
-		
-		if (userMapper.existsByEmail(dto.getEmail())) {
-			return "중복 된 이메일 입니다.";
-		}
-		
-		return null;
-	}
+	private void check(SignupRequest dto) {
+        if (userMapper.existsByUsername(dto.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다.");
+        }
+        if (userMapper.existsByEmail(dto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "중복된 이메일입니다.");
+        }
+    }
 
 	// 회원가입 기능
 	public void signup(@Valid SignupRequest dto) {
-
-		LocalDateTime createdAt = LocalDateTime.now();
-		
-		userMapper.userSingup(dto, createdAt);
-	}
+        check(dto);
+        
+        String hashedPassword = PasswordHasher.hashPassword(dto.getPassword());
+        LocalDateTime createdAt = LocalDateTime.now();
+        
+        userMapper.insertUser(dto.getUsername(), dto.getEmail(), hashedPassword, createdAt);
+    }
 
 	// 로그인 기능
 	public Users login(LoginRequest dto) {
-	    Users user = userMapper.findByUsernameAndPassword(dto.getEmail(), dto.getPassword());
-	    if (user == null) {
-	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이메일 또는 비밀번호가 올바르지 않습니다.");
-	    }
-	    return user;
-	}
+        Users user = userMapper.findByEmail(dto.getEmail());
+        if (user == null || !user.getPassword().equals(PasswordHasher.hashPassword(dto.getPassword()))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이메일 또는 비밀번호가 올바르지 않습니다.");
+        }
+        return user;
+    }
 
 	
 

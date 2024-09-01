@@ -31,14 +31,16 @@ public class QnaPostController {
 	
 	// 글 작성 페이지 이동 기능
 	@GetMapping("/write")
-    public String write(Model model, HttpSession session) {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login";  // 로그인 페이지로 리다이렉트
-        }
-        model.addAttribute("dto", new QnaCreateRequest());
-        return "qna/qnaWrite";
-    }
+	public String write(Model model, HttpSession session) {
+	    Integer userId = (Integer) session.getAttribute("userId");
+	    System.out.println("Session userId: " + userId);  // 디버깅용 출력
+
+	    if (userId == null) {
+	        return "redirect:/login/loginpage";
+	    }
+	    model.addAttribute("dto", new QnaCreateRequest());
+	    return "qnaWrite";
+	}
 	
 	// 글 작성 기능
 	@PostMapping("/create")
@@ -47,10 +49,12 @@ public class QnaPostController {
                          HttpSession session,
                          Model model) {
         Users user = (Users) session.getAttribute("user");
+        
+        // 로그인 안 했으면 로그인 페이지로 리다이렉트
         if (user == null) {
-            return "redirect:/login";  // 로그인 페이지로 리다이렉트
+            return "redirect:/login";  
         }
-
+        
         if (bindingResult.hasErrors()) {
             return "qna/qnaWrite";
         }

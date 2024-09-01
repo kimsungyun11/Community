@@ -16,9 +16,12 @@ import jakarta.validation.Valid;
 public interface UserMapper {
 	
 	// 회원가입 기능
-	@Insert("INSERT INTO Users (username, email, password, created_at) "
-			+ "VALUES (#{dto.username}, #{dto.email}, #{dto.password}, #{createdAt})")
-	void userSingup(@Param("dto") @Valid SignupRequest dto, @Param("createdAt") LocalDateTime createdAt);
+	@Insert("INSERT INTO Users (username, email, password, created_at) " +
+            "VALUES (#{username}, #{email}, #{password}, #{createdAt})")
+    void insertUser(@Param("username") String username, 
+                    @Param("email") String email, 
+                    @Param("password") String hashedPassword, 
+                    @Param("createdAt") LocalDateTime createdAt);
 
 	// 닉네임 중복 확인
 	@Select("SELECT COUNT(*) > 0 FROM Users WHERE username = #{username}")
@@ -29,8 +32,8 @@ public interface UserMapper {
     boolean existsByEmail(String email);
 
     // 로그인 기능
-    @Select("SELECT * FROM users WHERE email = #{email} AND password = #{password}")
-    Users findByUsernameAndPassword(@Param("email") String email, @Param("password") String password);
+    @Select("SELECT * FROM users WHERE email = #{email}")
+    Users findByEmail(@Param("email") String email);
 
     
     
