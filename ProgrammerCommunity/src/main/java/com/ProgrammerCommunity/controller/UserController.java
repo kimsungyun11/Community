@@ -52,18 +52,19 @@ public class UserController {
 
 	// 로그인 기능
 	@PostMapping("/login")
-	public String login(@ModelAttribute("LoginRequest") LoginRequest dto, Model model, HttpSession session) {
-	    try {
-	        Users user = userService.login(dto);
-	        session.setAttribute("userId", user.getUserId()); // "userId"로 변경
-	        System.out.println("Login - userId set in session: " + user.getUserId());
-	        session.setAttribute("user", user); // 전체 사용자 객체도 저장 (필요시)
-	        return "redirect:/main";
-	    } catch (ResponseStatusException e) {
-	        model.addAttribute("error", "로그인 실패: " + e.getReason());
-	        return "login"; // "redirect:/login" 대신 "login"을 반환
-	    }
-	}
+    public String login(@ModelAttribute LoginRequest dto, HttpSession session) {
+        try {
+            Users user = userService.login(dto);
+            if (user != null && user.getUserId() != null) {
+                session.setAttribute("userId", user.getUserId());
+                return "redirect:/main";
+            } else {
+                return "redirect:/login?error";
+            }
+        } catch (ResponseStatusException e) {
+            return "redirect:/login?error";
+        }
+    }
 	
 	// 로그아웃 기능
 	@GetMapping("/logout")

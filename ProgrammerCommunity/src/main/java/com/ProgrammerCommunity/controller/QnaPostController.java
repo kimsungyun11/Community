@@ -1,5 +1,7 @@
 package com.ProgrammerCommunity.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -7,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
+import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.entity.Users;
 import com.ProgrammerCommunity.service.QnaPostService;
 
@@ -25,7 +29,16 @@ public class QnaPostController {
 	
 	// 게시판 페이지 이동 기능
 	@GetMapping("/qnapage")
-	public String qnaPage() {
+	public String qnaPage( Model model, 
+						@RequestParam( value = "pageSize", defaultValue = "10" ) int pageSize,
+						@RequestParam( value = "pageNum", defaultValue = "1" ) int pageNum,
+						@RequestParam( value = "boardType", defaultValue = "QNA") String boardType) {
+		
+		List<QnaListResponse> qnaList = service.qnaList( boardType, pageSize, pageNum );
+		
+		model.addAttribute("boardType", boardType);
+		model.addAttribute("qnaList", qnaList);
+		
 		return "qnaBoard";
 	}
 	
@@ -33,7 +46,6 @@ public class QnaPostController {
 	@GetMapping("/write")
 	public String write(Model model, HttpSession session) {
 	    Integer userId = (Integer) session.getAttribute("userId");
-	    System.out.println("Session userId: " + userId);  // 디버깅용 출력
 
 	    if (userId == null) {
 	        return "redirect:/login/loginpage";
@@ -48,18 +60,17 @@ public class QnaPostController {
                          BindingResult bindingResult,
                          HttpSession session,
                          Model model) {
-        Users user = (Users) session.getAttribute("user");
-        
-        // 로그인 안 했으면 로그인 페이지로 리다이렉트
-        if (user == null) {
-            return "redirect:/login";  
-        }
+		Integer userId = (Integer) session.getAttribute("userId");
+
+	    if (userId == null) {
+	        return "redirect:/login/loginpage";
+	    }
         
         if (bindingResult.hasErrors()) {
             return "qna/qnaWrite";
         }
         
-        dto.setUserId(user.getUserId());  // Users 클래스에 getId() 메소드가 있다고 가정
+        dto.setUserId(userId);
         service.createQnaPost(dto);
         return "redirect:/qna/qnapage";
     }

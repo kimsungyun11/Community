@@ -25,7 +25,7 @@ public class MainPageController {
 	
 	private final MainPageService mainPageService;
 	
-	// 메인 페이지 이동
+	// 메인페이지 이동 기능
 	@GetMapping("")
 	public String index() {
 		return "index";
@@ -39,10 +39,8 @@ public class MainPageController {
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum) {
         List<MainPageSearchResponse> results = mainPageService.searchMain(search, pageSize, pageNum);
         
-        // 검색 결과
         model.addAttribute("searchResults", results);
         
-        // 검색어
         model.addAttribute("searchKeyword", search);
         
         return "searchResults";

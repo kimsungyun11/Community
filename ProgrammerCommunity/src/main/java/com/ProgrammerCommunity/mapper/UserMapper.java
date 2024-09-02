@@ -5,12 +5,11 @@ import java.time.LocalDateTime;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
-import com.ProgrammerCommunity.model.dto.request.SignupRequest;
 import com.ProgrammerCommunity.model.entity.Users;
-
-import jakarta.validation.Valid;
 
 @Mapper
 public interface UserMapper {

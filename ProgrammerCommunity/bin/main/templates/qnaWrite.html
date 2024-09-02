@@ -21,7 +21,7 @@
 		<h2 class="mb-4 qna-title">기술 궁금증 해결하기</h2>
 		<form th:action="@{/qna/create}" method="post" class="qna-form"
 			th:object="${dto}">
-			<input type="hidden" th:field="*{boardType}" />
+			<input type="hidden" th:field="*{boardType}" th:value="${boardType}" />
 			<div class="mb-3">
 				<label for="title" class="form-label">제목</label> <input type="text"
 					class="form-control qna-input" id="title" th:field="*{title}"

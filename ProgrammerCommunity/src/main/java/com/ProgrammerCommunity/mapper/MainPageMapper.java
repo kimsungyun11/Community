@@ -11,7 +11,7 @@ import com.ProgrammerCommunity.model.dto.response.MainPageSearchResponse;
 @Mapper
 public interface MainPageMapper {
 
-	// ê²€ìƒ‰ ë° í˜ì´ì§•
+	// °Ë»ö±â´É
 	@Select("SELECT p.title, p.created_at, u.username " +
             "FROM posts p " +
             "JOIN users u ON p.user_id = u.user_id " +
