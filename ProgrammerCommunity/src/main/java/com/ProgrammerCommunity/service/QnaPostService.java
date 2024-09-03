@@ -30,16 +30,26 @@ public class QnaPostService {
 	// 게시판 페이지 이동 기능
 	public List<QnaListResponse> qnaList(String boardType, int pageSize, int pageNum) {
 		
-		if ( boardType.equals("QNA") ) {
+		if ( !boardType.equals("QNA") ) {
 			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "QNA게시판이 아님");
 		}
 		
 		// offSet 설정
-		int offset = ( pageSize -1 )* pageNum;
+		int offset = ( pageNum - 1 ) * pageSize;
 		
 		List<QnaListResponse> qna = mapper.qnaPageList( boardType, offset, pageSize );
 		
 		return qna;
+	}
+
+	// qna 게시물 갯수
+	public int getTotalQnaCount(String boardType, int pageSize) {
+		
+		int totalItems = mapper.totalPage( boardType );
+		
+		int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+		
+		return totalPages;
 	}
 	
 }

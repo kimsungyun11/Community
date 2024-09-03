@@ -34,10 +34,15 @@ public class QnaPostController {
 						@RequestParam( value = "pageNum", defaultValue = "1" ) int pageNum,
 						@RequestParam( value = "boardType", defaultValue = "QNA") String boardType) {
 		
+		int totalPages = service.getTotalQnaCount( boardType, pageSize );
+		
 		List<QnaListResponse> qnaList = service.qnaList( boardType, pageSize, pageNum );
 		
 		model.addAttribute("boardType", boardType);
 		model.addAttribute("qnaList", qnaList);
+		model.addAttribute("currentPage", pageNum);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("totalPages", totalPages);
 		
 		return "qnaBoard";
 	}
