@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.QnaPostMapper;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
+import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.entity.BoardType;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ public class QnaPostService {
 
 	// 글 작성 기능
 	public void createQnaPost(@Valid QnaCreateRequest dto) {
+		// 현재 시각
         dto.setCreatedAt(LocalDateTime.now());
         dto.setBoardType(BoardType.QNA);
         mapper.createQna(dto);
@@ -50,6 +52,20 @@ public class QnaPostService {
 		int totalPages = (int) Math.ceil((double) totalItems / pageSize);
 		
 		return totalPages;
+	}
+
+	// 글 상세 페이지 기능
+	public QnaDetailResponse detail(Integer postId) {
+		
+		// 글 없으면 에러 
+		if ( postId == null ) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "게시글이 없음" );
+		}
+		
+		// 상세 페이지
+		QnaDetailResponse qna = mapper.findByPostId( postId );
+		
+		return qna;
 	}
 	
 }

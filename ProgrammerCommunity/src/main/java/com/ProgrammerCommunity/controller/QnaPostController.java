@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
+import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
-import com.ProgrammerCommunity.model.entity.Users;
 import com.ProgrammerCommunity.service.QnaPostService;
 
 import jakarta.servlet.http.HttpSession;
@@ -83,8 +83,13 @@ public class QnaPostController {
 	
 	// 글 상세 페이지 기능
 	@GetMapping("/detail/{postId}")
-	public String detail( @PathVariable("postId") int postId ) {
-		return "";
+	public String detail( @PathVariable("postId") Integer postId, Model model ) {
+		
+		QnaDetailResponse qnaDetail = service.detail( postId );
+		
+		model.addAttribute("qnaDetail", qnaDetail);
+		
+		return "qnaDetail";
 	}
 	
 }

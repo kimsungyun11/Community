@@ -1,18 +1,19 @@
 package com.ProgrammerCommunity.model.dto.response;
 
+
+
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@RequiredArgsConstructor
-public class QnaListResponse {
-	private Integer postId;
+@NoArgsConstructor
+public class QnaDetailResponse {
+	private String username;
 	private String title;
     private String content;
-    private String tags;
     private LocalDateTime updatedAt;
 }
