@@ -33,10 +33,14 @@
 				<label for="tags" class="form-label">태그</label> <select
 					class="tag-select" id="tags" th:field="*{tags}" multiple
 					data-placeholder="태그를 선택하세요 (최대 3개까지 선택 가능)">
-					<option value="spring">spring</option>
+					<option value="백엔드">백엔드</option>
+					<option value="프론트엔드">프론트엔드</option>
 					<option value="spring-boot">spring-boot</option>
 					<option value="sql">sql</option>
-					<option value="jpa">jpa</option>
+					<option value="react">react</option>
+					<option value="java-script">java-script</option>
+					<option value="java">java</option>
+					<option value="python">python</option>
 				</select> <span th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}"
 					class="text-danger"></span>
 			</div>

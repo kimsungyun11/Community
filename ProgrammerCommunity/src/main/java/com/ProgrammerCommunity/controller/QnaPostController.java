@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
+import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
 import com.ProgrammerCommunity.service.QnaPostService;
 
 import jakarta.servlet.http.HttpSession;
@@ -85,11 +86,25 @@ public class QnaPostController {
 	@GetMapping("/detail/{postId}")
 	public String detail( @PathVariable("postId") Integer postId, Model model ) {
 		
+		// 글 상세 페이지 
 		QnaDetailResponse qnaDetail = service.detail( postId );
 		
-		model.addAttribute("qnaDetail", qnaDetail);
+		model.addAttribute("qnaDetail", qnaDetail); // 상세 페이지 뷰로
 		
 		return "qnaDetail";
 	}
+	
+	// 태그 클릭 시 검색
+	@GetMapping("/tag/{tags}")
+	public String tagSearch( @PathVariable("tags") String tags, Model model ) {
+		
+		// 태그 검색
+		QnaTagsSearchResponse tag = service.tagSearch( tags );
+		
+		model.addAttribute("tag", tag); // 검색 내용 뷰로
+		
+		return "qnaBoard";
+	}
+	
 	
 }

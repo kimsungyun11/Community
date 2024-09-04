@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
+import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
 
 import jakarta.validation.Valid;
 
@@ -37,5 +38,9 @@ public interface QnaPostMapper {
 			+ "JOIN Users b ON a.user_id = b.user_id "
 			+ "WHERE post_id = #{postId}")
 	QnaDetailResponse findByPostId(@Param("postId") Integer postId);
+
+	// 태그로 글 검색
+	@Select("SELECT title, content, tags, updated_at FROM Posts WHERE tags = #{tags}")
+	QnaTagsSearchResponse searchByTag(String tags);
 
 }
