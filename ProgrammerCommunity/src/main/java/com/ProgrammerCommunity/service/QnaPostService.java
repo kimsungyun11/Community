@@ -70,17 +70,14 @@ public class QnaPostService {
 	}
 
 	// 태그 검색 기능
-	public QnaTagsSearchResponse tagSearch(String tags) {
-		
-		// 태그가 null 인지 확인
-		if ( tags == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "태그가 없음" ); // 에러 코드
-		}
-		
-		// 태그에 맞는 글 검색
-		QnaTagsSearchResponse serach = mapper.searchByTag( tags );
-		
-		return null;
-	}
+	public List<QnaTagsSearchResponse> tagSearch(String tags, int pageSize, int pageNum) {
+        int offset = (pageNum - 1) * pageSize;
+        return mapper.searchByTag(tags, pageSize, offset);
+    }
+
+    public int getTotalTaggedQnaCount(String tags, int pageSize) {
+        int totalCount = mapper.countByTag(tags);
+        return (int) Math.ceil((double) totalCount / pageSize);
+    }
 	
 }

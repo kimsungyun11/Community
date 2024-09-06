@@ -96,14 +96,22 @@ public class QnaPostController {
 	
 	// 태그 클릭 시 검색
 	@GetMapping("/tag/{tags}")
-	public String tagSearch( @PathVariable("tags") String tags, Model model ) {
-		
-		// 태그 검색
-		QnaTagsSearchResponse tag = service.tagSearch( tags );
-		
-		model.addAttribute("tag", tag); // 검색 내용 뷰로
-		
-		return "qnaBoard";
+	public String tagSearch(@PathVariable("tags") String tags,
+	                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+	                        @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
+	                        Model model) {
+
+	    int totalPages = service.getTotalTaggedQnaCount(tags, pageSize);
+
+	    List<QnaTagsSearchResponse> qnaList = service.tagSearch(tags, pageSize, pageNum);
+
+	    model.addAttribute("tags", tags);
+	    model.addAttribute("qnaList", qnaList);
+	    model.addAttribute("currentPage", pageNum);
+	    model.addAttribute("pageSize", pageSize);
+	    model.addAttribute("totalPages", totalPages);
+
+	    return "qnaBoard";
 	}
 	
 	

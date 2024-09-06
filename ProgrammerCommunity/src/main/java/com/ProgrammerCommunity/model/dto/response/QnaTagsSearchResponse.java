@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class QnaTagsSearchResponse {
+	private Integer postId;
 	private String title;
     private String content;
     private String tags;

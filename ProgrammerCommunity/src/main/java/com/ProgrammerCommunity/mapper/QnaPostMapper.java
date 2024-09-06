@@ -40,7 +40,10 @@ public interface QnaPostMapper {
 	QnaDetailResponse findByPostId(@Param("postId") Integer postId);
 
 	// 태그로 글 검색
-	@Select("SELECT title, content, tags, updated_at FROM Posts WHERE tags = #{tags}")
-	QnaTagsSearchResponse searchByTag(String tags);
+	@Select("SELECT post_id, title, content, tags, updated_at FROM Posts WHERE tags LIKE CONCAT('%', #{tags}, '%')")
+	List<QnaTagsSearchResponse> searchByTag(@Param("tags") String tags, @Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT COUNT(*) FROM Posts WHERE tags LIKE CONCAT('%', #{tags}, '%')")
+    int countByTag(@Param("tags") String tags);
 
 }

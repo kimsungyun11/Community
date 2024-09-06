@@ -41,3 +41,16 @@
 .sort-select {
     width: auto;
 }
+.btn-outline-primary {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.badge a {
+    color: white;
+    text-decoration: none;
+}
+
+.badge a:hover {
+    text-decoration: underline;
+}
