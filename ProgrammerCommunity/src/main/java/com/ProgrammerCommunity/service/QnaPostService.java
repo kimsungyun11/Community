@@ -45,7 +45,7 @@ public class QnaPostService {
 		return qna;
 	}
 
-	// qna 게시물 갯수
+	// qna 페이지 갯수
 	public int getTotalQnaCount(String boardType, int pageSize) {
 		
 		int totalItems = mapper.totalPage( boardType );
