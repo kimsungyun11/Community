@@ -13,6 +13,7 @@ import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
 import com.ProgrammerCommunity.model.entity.BoardType;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -79,5 +80,23 @@ public class QnaPostService {
         int totalCount = mapper.countByTag(tags);
         return (int) Math.ceil((double) totalCount / pageSize);
     }
+
+    // 글 삭제 기능
+	public void delete(Integer user, Integer postId) {
+		
+		// user null인지 확인
+		if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
+		
+		// 삭제 할 수 있는 지 확인
+        int deletedCount = mapper.deleteQna(user, postId);
+        
+        // 없으면 에러
+        if (deletedCount == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "삭제할 게시글을 찾을 수 없거나 권한이 없습니다.");
+        }
+		
+	}
 	
 }

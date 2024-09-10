@@ -51,13 +51,15 @@ public class CommunityController {
 	
 	// 글 작성 페이지 이동
 	@GetMapping("write")
-	public String communityWrite( HttpSession session ) {
+	public String communityWrite( HttpSession session, Model model ) {
 		
 		Integer user = (Integer) session.getAttribute("userId");
 		
 		if ( user == null ) {
 			return "redirect:/login/loginpage";
 		}
+		
+		model.addAttribute("dto", new CommunityResponse());
 		
 		return "communityWrite";
 	}

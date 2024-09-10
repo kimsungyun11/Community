@@ -2,15 +2,18 @@ package com.ProgrammerCommunity.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
@@ -112,6 +115,19 @@ public class QnaPostController {
 	    model.addAttribute("totalPages", totalPages);
 
 	    return "qnaBoard";
+	}
+	
+	// 글 삭제 기능
+	@DeleteMapping("/delete/{postId}")
+	public String delete( @PathVariable("postId") Integer postId, HttpSession session ) {
+		
+		// userId 
+		Integer user = (Integer) session.getAttribute("userId");
+		
+		// 글 삭제
+		service.delete( user, postId );
+		
+		return "redirect:/qna/qnapage";
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.ProgrammerCommunity.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -45,5 +46,9 @@ public interface QnaPostMapper {
 
     @Select("SELECT COUNT(*) FROM Posts WHERE tags LIKE CONCAT('%', #{tags}, '%')")
     int countByTag(@Param("tags") String tags);
+
+    // qna±€ ªË¡¶
+    @Delete("DELETE FROM posts WHERE user_id = #{user} AND id = #{postId}")
+    int deleteQna(@Param("user") Integer user, @Param("postId") Integer postId);
 
 }
