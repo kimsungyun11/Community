@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.QnaPostMapper;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
+import com.ProgrammerCommunity.model.dto.response.CommentResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
@@ -22,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class QnaPostService {
 	
 	private final QnaPostMapper mapper;
+	private final CommentService commentService;
 
 	// 글 작성 기능
 	public void createQnaPost(@Valid QnaCreateRequest dto) {
@@ -57,18 +59,21 @@ public class QnaPostService {
 	}
 
 	// 글 상세 페이지 기능
-	public QnaDetailResponse detail(Integer postId) {
-		
-		// null인지 확인
-		if ( postId == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "게시글이 없음" ); // 에러코드
-		}
-		
-		// 상세 페이지
-		QnaDetailResponse qna = mapper.findByPostId( postId );
-		
-		return qna;
-	}
+	public QnaDetailResponse getQnaDetail(Integer postId) {
+        if (postId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "게시글이 없음");
+        }
+        QnaDetailResponse qna = mapper.findByPostId(postId);
+        if (qna == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다.");
+        }
+        
+        // 댓글 정보 추가
+        List<CommentResponse> comments = commentService.getCommentsByPostId(postId);
+        qna.setComments(comments);
+        
+        return qna;
+    }
 
 	// 태그 검색 기능
 	public List<QnaTagsSearchResponse> tagSearch(String tags, int pageSize, int pageNum) {

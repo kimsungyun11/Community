@@ -2,7 +2,6 @@ package com.ProgrammerCommunity.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,9 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.ProgrammerCommunity.model.dto.request.CommentCreateRequest;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
+import com.ProgrammerCommunity.model.dto.response.CommentResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
@@ -87,15 +87,14 @@ public class QnaPostController {
 	
 	// 글 상세 페이지 기능
 	@GetMapping("/detail/{postId}")
-	public String detail( @PathVariable("postId") Integer postId, Model model ) {
-		
-		// 글 상세 페이지 
-		QnaDetailResponse qnaDetail = service.detail( postId );
-		
-		model.addAttribute("qnaDetail", qnaDetail); // 상세 페이지 뷰로
-		
-		return "qnaDetail";
-	}
+    public String detail(@PathVariable("postId") Integer postId, Model model) {
+        QnaDetailResponse qnaDetail = service.getQnaDetail(postId);
+
+        model.addAttribute("qnaDetail", qnaDetail);
+        model.addAttribute("newComment", new CommentCreateRequest());
+
+        return "qnaDetail";
+    }
 	
 	// 태그 클릭 시 검색
 	@GetMapping("/tag/{tags}")
