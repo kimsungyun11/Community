@@ -9,8 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.QnaPostMapper;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
+import com.ProgrammerCommunity.model.dto.request.QnaUpdateRequest;
 import com.ProgrammerCommunity.model.dto.response.CommentResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
+import com.ProgrammerCommunity.model.dto.response.QnaEditResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
 import com.ProgrammerCommunity.model.entity.BoardType;
@@ -103,5 +105,39 @@ public class QnaPostService {
         }
 		
 	}
+	
+	// 수정 페이지 이동
+	public QnaEditResponse getQnaForEdit(Integer postId, Integer userId) {
+		
+		// 수정 해야 할 정보
+        QnaEditResponse qna = mapper.findByPostIdForEdit(postId);
+        
+        // 글 정보가 없으면 에러
+        if (qna == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다.");
+        }
+        
+        // 글 작성자가 아니면 에러
+        if (!qna.getUserId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "수정 권한이 없습니다.");
+        }
+        
+        return qna;
+    }
+
+	// 글 수정 
+    public void updateQna(Integer postId, Integer userId, QnaUpdateRequest updateRequest) {
+    	
+    	// 글 정보
+        QnaDetailResponse existingQna = mapper.findByPostId(postId);
+        
+        // 글 정보가 없거나 글 작성자가 아니면 에러
+        if (existingQna == null || !existingQna.getUserId().equals(userId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "수정 권한이 없습니다.");
+        }
+        
+        // 글 수정
+        mapper.updateQna(postId, updateRequest.getTitle(), updateRequest.getContent(), updateRequest.getTags());
+    }
 	
 }

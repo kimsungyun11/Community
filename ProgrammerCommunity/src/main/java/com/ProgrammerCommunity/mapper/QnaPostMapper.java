@@ -8,9 +8,11 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
+import com.ProgrammerCommunity.model.dto.response.QnaEditResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
 
@@ -50,5 +52,15 @@ public interface QnaPostMapper {
     // qna글 삭제
     @Delete("DELETE FROM posts WHERE user_id = #{user} AND id = #{postId}")
     int deleteQna(@Param("user") Integer user, @Param("postId") Integer postId);
-
+    
+    // 글 수정 기능
+    @Update("UPDATE Posts SET title = #{title}, content = #{content}, tags = #{tags}, updated_at = CURRENT_TIMESTAMP " +
+            "WHERE post_id = #{postId}")
+    void updateQna(@Param("postId") Integer postId, @Param("title") String title, @Param("content") String content, @Param("tags") String tags);
+    
+    // 수정 해야 할 글 정보
+    @Select("SELECT post_id, user_id, title, content, tags, updated_at "
+            + "FROM Posts WHERE post_id = #{postId}")
+    QnaEditResponse findByPostIdForEdit(@Param("postId") Integer postId);
+    
 }

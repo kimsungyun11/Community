@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ProgrammerCommunity.model.dto.request.CommentCreateRequest;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
-import com.ProgrammerCommunity.model.dto.response.CommentResponse;
+import com.ProgrammerCommunity.model.dto.request.QnaUpdateRequest;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
+import com.ProgrammerCommunity.model.dto.response.QnaEditResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
 import com.ProgrammerCommunity.model.dto.response.QnaTagsSearchResponse;
 import com.ProgrammerCommunity.service.QnaPostService;
@@ -129,5 +130,41 @@ public class QnaPostController {
 		return "redirect:/qna/qnapage";
 	}
 	
+	// 수정 페이지로 이동
+	@GetMapping("/edit/{postId}")
+    public String showEditForm(@PathVariable("postId") Integer postId, Model model, HttpSession session) {
+		
+		// 현재 로그인 userId 확인
+        Integer userId = (Integer) session.getAttribute("userId");
+        
+        // 로그인 안하면 로그인 페이지 이동
+        if (userId == null) {
+            return "redirect:/login";
+        }
+        
+        // 수정 해야 할 글 정보
+        QnaEditResponse qna = service.getQnaForEdit(postId, userId);
+        model.addAttribute("qna", qna);
+        return "qnaEditForm";
+    }
+
+    // 글 수정 처리
+    @PostMapping("/update/{postId}")
+    public String update(@PathVariable("postId") Integer postId, 
+    					 @Valid @ModelAttribute QnaUpdateRequest updateRequest,
+                         HttpSession session) {
+    	
+    	// 유저 정보
+        Integer userId = (Integer) session.getAttribute("userId");
+        
+        // 로그인 안 했으면 로그인 페이지
+        if (userId == null) {
+            return "redirect:/login";
+        }
+        
+        // 글 수정
+        service.updateQna(postId, userId, updateRequest);
+        return "redirect:/qna/detail/" + postId;
+    }
 	
 }
