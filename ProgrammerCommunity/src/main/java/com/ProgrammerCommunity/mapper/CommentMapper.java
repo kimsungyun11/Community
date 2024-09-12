@@ -14,11 +14,13 @@ import com.ProgrammerCommunity.model.entity.Comments;
 
 @Mapper
 public interface CommentMapper {
-
+	
+	// ¥Ò±€ ¿€º∫
     @Insert("INSERT INTO Comments (post_id, user_id, parent_comment_id, content, created_at) " +
             "VALUES (#{dto.postId}, #{dto.userId}, #{dto.parentCommentId}, #{dto.content}, #{dto.createdAt})")
     void insertComment(@Param("dto") CommentCreateRequest dto);
 
+    // ¥Ò±€ ªË¡¶
     @Delete("DELETE FROM Comments WHERE comment_id = #{commentId}")
     void deleteComment(@Param("commentId") Integer commentId);
 
