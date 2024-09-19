@@ -16,6 +16,7 @@ public class QnaDetailResponse {
 	private Integer postId;
 	private Integer userId;
     private String title;
+    private String tags;
     private String content;
     private LocalDateTime updatedAt;
     private String username;
