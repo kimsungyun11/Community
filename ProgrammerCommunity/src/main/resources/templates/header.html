@@ -40,7 +40,7 @@
 				</form>
 				<div class="d-flex align-items-center">
 					<!-- 로그인 상태에 따라 다른 내용 표시 -->
-					<th:block th:if="${session.user != null}">
+					<th:block th:if="${session.userId != null}">
 						<div class="dropdown">
 							<a href="#"
 								class="d-flex align-items-center text-decoration-none"
@@ -56,7 +56,7 @@
 							</ul>
 						</div>
 					</th:block>
-					<th:block th:unless="${session.user != null}">
+					<th:block th:unless="${session.userId != null}">
 						<a th:href="@{/login/loginpage}"
 							class="btn btn-outline-primary me-2">로그인</a>
 						<a th:href="@{/login/signuppage}" class="btn btn-primary">회원가입</a>

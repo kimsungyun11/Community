@@ -1,0 +1,57 @@
+@charset "UTF-8";
+.qna-title {
+    color: #333;
+    font-weight: bold;
+}
+
+.qna-form {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.qna-input, .qna-textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.tag-select {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.qna-btn-cancel, .qna-btn-submit {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.qna-btn-submit {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.qna-btn-submit:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Summernote 에디터 커스텀 스타일 */
+.note-editor {
+    border: 1px solid #ced4da !important;
+}
+
+.note-toolbar {
+    background-color: #f8f9fa !important;
+}

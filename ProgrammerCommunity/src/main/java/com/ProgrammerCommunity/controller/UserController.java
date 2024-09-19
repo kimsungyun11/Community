@@ -1,5 +1,7 @@
 package com.ProgrammerCommunity.controller;
 
+
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,19 +54,21 @@ public class UserController {
 
 	// 로그인 기능
 	@PostMapping("/login")
-    public String login(@ModelAttribute LoginRequest dto, HttpSession session) {
-        try {
-            Users user = userService.login(dto);
-            if (user != null && user.getUserId() != null) {
-                session.setAttribute("userId", user.getUserId());
-                return "redirect:/main";
-            } else {
-                return "redirect:/login?error";
-            }
-        } catch (ResponseStatusException e) {
-            return "redirect:/login?error";
-        }
-    }
+	public String login(@ModelAttribute LoginRequest dto, HttpSession session) {
+	    try {
+	        Users user = userService.login(dto);
+	        if (user != null && user.getUserId() != null) {
+	            session.setAttribute("userId", user.getUserId());
+	            return "redirect:/main";
+	        } else {
+	            return "redirect:/login?error";
+	        }
+	    } catch (ResponseStatusException e) {
+	        return "redirect:/login?error";
+	    } catch (Exception e) {
+	        return "redirect:/login?error";
+	    }
+	}
 	
 	// 로그아웃 기능
 	@GetMapping("/logout")

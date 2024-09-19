@@ -46,3 +46,16 @@ textarea.form-control:focus {
     border-color: #80bdff;
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
+.comment-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.comment-content {
+    margin-bottom: 5px;
+}
+
+.comment-info {
+    font-size: 0.9em;
+    color: #666;
+}

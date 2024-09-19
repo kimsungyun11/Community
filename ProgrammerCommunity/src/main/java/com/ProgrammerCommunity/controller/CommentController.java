@@ -22,7 +22,7 @@ public class CommentController {
     
     private final CommentService commentService;
     
- // 일반 댓글과 대댓글 작성을 위한 메서드
+    // 일반 댓글과 대댓글 작성을 위한 메서드
     @PostMapping("/create")
     public String createComment(@Valid @ModelAttribute CommentCreateRequest dto,
                                 BindingResult bindingResult,
