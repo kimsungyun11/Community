@@ -23,7 +23,7 @@ public interface CommentMapper {
     // ¥Ò±€ ªË¡¶
     @Delete("DELETE FROM Comments WHERE comment_id = #{commentId}")
     void deleteComment(@Param("commentId") Integer commentId);
-
+    
     @Select("SELECT * FROM Comments WHERE comment_id = #{commentId}")
     Comments findById(@Param("commentId") Integer commentId);
 

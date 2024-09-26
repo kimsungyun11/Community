@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentCreateRequest {
-    @NotNull(message = "게시글 ID는 필수입니다.")
+
     private Integer postId;
 
     private Integer userId;

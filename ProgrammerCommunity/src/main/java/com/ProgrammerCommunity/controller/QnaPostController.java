@@ -92,7 +92,7 @@ public class QnaPostController {
         QnaDetailResponse qnaDetail = service.getQnaDetail(postId);
 
         model.addAttribute("qnaDetail", qnaDetail);
-        model.addAttribute("newComment", new CommentCreateRequest());
+        model.addAttribute("comments", qnaDetail.getComments());
 
         return "qnaDetail";
     }
