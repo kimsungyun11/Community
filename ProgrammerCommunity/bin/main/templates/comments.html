@@ -16,7 +16,7 @@
                     <small class="text-muted" th:text="${#temporals.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}">댓글 작성 시간</small>
 
                     <!-- 대댓글 작성 폼 -->
-                    <form th:action="@{/comments/reply/{postId}(postId=${qnaDetail.postId})}" method="post" class="mt-3">
+                    <form th:action="@{/comment/reply/{postId}(postId=${qnaDetail.postId})}" method="post" class="mt-3">
                         <input type="hidden" name="parentCommentId" th:value="${comment.commentId}">
                         <div class="mb-3">
                             <textarea class="form-control" name="content" rows="2" placeholder="대댓글을 입력하세요" required></textarea>
@@ -26,7 +26,7 @@
 
                     <!-- 댓글 삭제 폼 -->
                     <form th:if="${session.userId != null and session.userId == comment.userId}"
-                          th:action="@{/comments/delete/{commentId}(commentId=${comment.commentId})}" 
+                          th:action="@{/comment/delete/{commentId}(commentId=${comment.commentId})}" 
                           method="post" class="mt-2">
                         <button type="submit" class="btn btn-sm btn-danger" 
                                 onclick="return confirm('정말로 이 댓글을 삭제하시겠습니까?');">삭제</button>
@@ -35,7 +35,7 @@
             </div>
 
             <!-- 새 댓글 작성 폼 -->
-            <form th:action="@{/comments/create/{postId}(postId=${qnaDetail.postId})}" method="post" class="mt-4">
+            <form th:action="@{/comment/create/{postId}(postId=${qnaDetail.postId})}" method="post" class="mt-4">
                 <div class="mb-3">
                     <textarea class="form-control" name="content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
                 </div>

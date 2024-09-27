@@ -1,5 +1,6 @@
 package com.ProgrammerCommunity.controller;
 
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/comments")
+@RequestMapping("/comment")
 @RequiredArgsConstructor
 @Slf4j
 public class CommentController {

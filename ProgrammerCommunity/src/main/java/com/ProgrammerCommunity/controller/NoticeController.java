@@ -8,7 +8,7 @@ import com.ProgrammerCommunity.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/comments")
+@RequestMapping("/notice")
 @RequiredArgsConstructor
 public class NoticeController {
 
