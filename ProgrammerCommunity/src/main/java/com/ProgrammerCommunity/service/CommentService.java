@@ -58,19 +58,14 @@ public class CommentService {
     
     // 댓글을 계층 구조로 정리하는 private 메서드
     private List<CommentResponse> organizeComments(List<CommentResponse> allComments) {
-        // 댓글 ID를 키로 사용하는 Map 생성
         Map<Integer, CommentResponse> commentMap = new HashMap<>();
-        // 최상위 댓글을 저장할 리스트
         List<CommentResponse> rootComments = new ArrayList<>();
 
         for (CommentResponse comment : allComments) {
-            // 모든 댓글을 Map에 저장
             commentMap.put(comment.getCommentId(), comment);
             if (comment.getParentCommentId() == null) {
-                // 부모 댓글이 없으면 최상위 댓글로 처리
                 rootComments.add(comment);
             } else {
-                // 부모 댓글이 있으면 해당 부모의 대댓글로 추가
                 CommentResponse parentComment = commentMap.get(comment.getParentCommentId());
                 if (parentComment != null) {
                     if (parentComment.getReplies() == null) {
@@ -80,7 +75,6 @@ public class CommentService {
                 }
             }
         }
-        // 최상위 댓글 리스트 반환 (대댓글은 각 댓글의 replies에 포함됨)
         return rootComments;
     }
 
