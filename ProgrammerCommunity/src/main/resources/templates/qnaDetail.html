@@ -10,23 +10,23 @@
     <div th:replace="~{header :: navbar}"></div>
 
     <div class="container mt-5">
-        <h2 class="mb-4" th:text="${qnaDetail.title}">게시글 제목</h2>
+        <h2 class="mb-4" th:text="${qnaDetailPage.title}">게시글 제목</h2>
         <p class="text-muted">
-            작성자: <span th:text="${qnaDetail.username}"></span> | 
-            작성일: <span th:text="${#temporals.format(qnaDetail.updatedAt, 'yyyy-MM-dd HH:mm')}"></span>
+            작성자: <span th:text="${qnaDetailPage.username}"></span> |
+            작성일: <span th:text="${#temporals.format(qnaDetailPage.updatedAt, 'yyyy-MM-dd HH:mm')}"></span>
         </p>
 
         <div class="mb-4 post-content">
-            <p th:text="${qnaDetail.content}">게시글 내용</p>
+            <p th:text="${qnaDetailPage.content}">게시글 내용</p>
         </div>
 
-        <div th:if="${qnaDetail.tags != null and not #lists.isEmpty(qnaDetail.tags)}" class="mb-3">
-            <span th:each="tag : ${qnaDetail.tags}" class="badge bg-secondary me-1" th:text="${tag}">태그</span>
+        <div th:if="${qnaDetailPage.tags != null and not #lists.isEmpty(qnaDetailPage.tags)}" class="mb-3">
+            <span th:each="tag : ${qnaDetailPage.tags}" class="badge bg-secondary me-1" th:text="${tag}">태그</span>
         </div>
 
-        <div th:if="${session.userId != null and session.userId == qnaDetail.userId}" class="mb-4">
-            <a th:href="@{/qna/edit/{postId}(postId=${qnaDetail.postId})}" class="btn btn-primary">수정</a>
-            <form th:action="@{/qna/delete/{postId}(postId=${qnaDetail.postId})}" method="post" style="display: inline;">
+        <div th:if="${session.userId != null and session.userId == qnaDetailPage.userId}" class="mb-4">
+            <a th:href="@{/qna/edit/{postId}(postId=${qnaDetailPage.postId})}" class="btn btn-primary">수정</a>
+            <form th:action="@{/qna/delete/{postId}(postId=${qnaDetailPage.postId})}" method="post" style="display: inline;">
                 <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 이 게시글을 삭제하시겠습니까?');">삭제</button>
             </form>
         </div>

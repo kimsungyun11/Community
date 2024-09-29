@@ -36,11 +36,11 @@ public interface QnaPostMapper {
 	int totalPage(String boardType);
 
 	// 상세 페이지 
-	@Select("SELECT a.title, a.content, a.updated_at, b.username "
-			+ "FROM Posts a "
-			+ "JOIN Users b ON a.user_id = b.user_id "
-			+ "WHERE post_id = #{postId}")
-	QnaDetailResponse findByPostId(@Param("postId") Integer postId);
+	@Select("SELECT a.post_id, a.title, a.content, a.updated_at, b.username, a.user_id " +
+            "FROM Posts a " +
+            "JOIN Users b ON a.user_id = b.user_id " +
+            "WHERE a.post_id = #{postId}")
+    QnaDetailResponse findByPostId(@Param("postId") Integer postId);
 
 	// 태그로 글 검색
 	@Select("SELECT post_id, title, content, tags, updated_at FROM Posts WHERE tags LIKE CONCAT('%', #{tags}, '%')")

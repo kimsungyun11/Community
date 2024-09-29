@@ -1,5 +1,7 @@
 package com.ProgrammerCommunity.service;
 
+
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,26 +18,34 @@ import com.ProgrammerCommunity.model.dto.response.CommentResponse;
 import com.ProgrammerCommunity.model.entity.Comments;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CommentService {
     
     private final CommentMapper commentMapper;
 
     // 댓글 생성 메서드
     public void createComment(CommentCreateRequest dto, Integer postId, Integer userId) {
-    	dto.setPostId(postId);
+        log.info("Entering createComment method");
+        log.info("Received postId: {}, userId: {}", postId, userId);
+        log.info("Original DTO: {}", dto);
+
+        dto.setPostId(postId);
         dto.setUserId(userId);
-        // 현재 시간을 댓글 작성 시간으로 설정
         dto.setCreatedAt(LocalDateTime.now());
-        // 매퍼를 통해 댓글을 데이터베이스에 삽입
+
+        if (dto.getParentCommentId() == null || dto.getParentCommentId() == 0) {
+            dto.setParentCommentId(null);  // null로 설정
+        }
+
+        log.info("Modified DTO before insertion: {}", dto);
+
         commentMapper.insertComment(dto);
 
-        if (dto.getParentCommentId() == null) {
-            dto.setParentCommentId(0);
-        }
-        System.err.println( "dto : " + dto.getContent() );
+        log.info("Comment inserted successfully");
     }
     
     // 특정 게시글의 모든 댓글을 조회하고 구조화하는 메서드
