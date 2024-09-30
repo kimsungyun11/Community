@@ -29,10 +29,6 @@ public class CommentService {
 
     // 댓글 생성 메서드
     public void createComment(CommentCreateRequest dto, Integer postId, Integer userId) {
-        log.info("Entering createComment method");
-        log.info("Received postId: {}, userId: {}", postId, userId);
-        log.info("Original DTO: {}", dto);
-
         dto.setPostId(postId);
         dto.setUserId(userId);
         dto.setCreatedAt(LocalDateTime.now());
@@ -40,12 +36,8 @@ public class CommentService {
         if (dto.getParentCommentId() == null || dto.getParentCommentId() == 0) {
             dto.setParentCommentId(null);  // null로 설정
         }
-
-        log.info("Modified DTO before insertion: {}", dto);
-
         commentMapper.insertComment(dto);
 
-        log.info("Comment inserted successfully");
     }
     
     // 특정 게시글의 모든 댓글을 조회하고 구조화하는 메서드

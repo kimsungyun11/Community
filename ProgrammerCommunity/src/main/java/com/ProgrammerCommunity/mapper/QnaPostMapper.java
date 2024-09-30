@@ -50,8 +50,8 @@ public interface QnaPostMapper {
     int countByTag(@Param("tags") String tags);
 
     // qna글 삭제
-    @Delete("DELETE FROM posts WHERE user_id = #{user} AND id = #{postId}")
-    int deleteQna(@Param("user") Integer user, @Param("postId") Integer postId);
+    @Delete("DELETE FROM posts WHERE user_id = #{user} AND post_id = #{postId}")
+    void deleteQna(@Param("user") Integer user, @Param("postId") Integer postId);
     
     // 글 수정 기능
     @Update("UPDATE Posts SET title = #{title}, content = #{content}, tags = #{tags}, updated_at = CURRENT_TIMESTAMP " +

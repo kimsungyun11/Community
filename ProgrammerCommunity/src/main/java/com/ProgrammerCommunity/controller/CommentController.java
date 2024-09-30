@@ -26,8 +26,6 @@ public class CommentController {
                                 BindingResult bindingResult,
                                 HttpSession session,
                                 Model model) {
-        log.info("Received create comment request for postId: {}", postId);
-        
         Integer userId = (Integer) session.getAttribute("userId");
         if (userId == null) {
             return "redirect:/login/loginpage";
@@ -42,7 +40,6 @@ public class CommentController {
             commentService.createComment(commentForm, postId, userId);
             model.addAttribute("message", "댓글이 성공적으로 작성되었습니다.");
         } catch (Exception e) {
-            log.error("Error creating comment", e);
             model.addAttribute("error", "댓글 작성 중 오류가 발생했습니다.");
         }
         
@@ -72,7 +69,6 @@ public class CommentController {
             model.addAttribute("message", "댓글이 성공적으로 삭제되었습니다.");
             return "redirect:/qna/detail/" + postId;
         } catch (Exception e) {
-            log.error("Error deleting comment", e);
             model.addAttribute("error", "댓글 삭제 중 오류가 발생했습니다.");
             return "redirect:/error";
         }

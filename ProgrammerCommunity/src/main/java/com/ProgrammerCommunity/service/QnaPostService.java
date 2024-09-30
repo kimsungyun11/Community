@@ -96,14 +96,9 @@ public class QnaPostService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
         }
 		
-		// 삭제 할 수 있는 지 확인
-        int deletedCount = mapper.deleteQna(user, postId);
-        
-        // 없으면 에러
-        if (deletedCount == 0) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "삭제할 게시글을 찾을 수 없거나 권한이 없습니다.");
-        }
-		
+		// 삭제
+        mapper.deleteQna(user, postId);
+
 	}
 	
 	// 수정 페이지 이동

@@ -119,7 +119,7 @@ public class QnaPostController {
 	}
 	
 	// 글 삭제 기능
-	@DeleteMapping("/delete/{postId}")
+	@PostMapping("/delete/{postId}")
 	public String delete( @PathVariable("postId") Integer postId, HttpSession session ) {
 		
 		// userId 
