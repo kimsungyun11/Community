@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
 import com.ProgrammerCommunity.service.CommunityService;
 
@@ -20,23 +21,23 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommunityController {
 	
-	private static CommunityService service;
+	private final CommunityService service;
 	
 	// community 페이지 이동
 	@GetMapping
 	public String communityPage( Model model,
 								@RequestParam( name = "pageNum", defaultValue = "1" ) int pageNum,
 								@RequestParam( name = "pageSize", defaultValue = "10" ) int pageSize,
-								@RequestParam( name = "boardType", defaultValue = "community" ) String boardType ) {
+								@RequestParam( name = "boardType", defaultValue = "COMMUNITY" ) String boardType ) {
 		
 		// community 리스트
-		List<CommunityResponse> List = service.communityPage( pageNum, pageSize, boardType );
+		List<CommunityResponse> list = service.communityPage( pageNum, pageSize, boardType );
 		
 		// total
 		int total = service.tatalPage( pageSize, boardType );
 		
 		// community 리스트
-		model.addAttribute("community", List);
+		model.addAttribute("posts", list);
 		// totalPage수
 		model.addAttribute("total", total);
 		// boardType
@@ -59,7 +60,7 @@ public class CommunityController {
 			return "redirect:/login/loginpage";
 		}
 		
-		model.addAttribute("dto", new CommunityResponse());
+		model.addAttribute("dto", new CommunityCreateResponse());
 		
 		return "communityWrite";
 	}

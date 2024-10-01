@@ -15,13 +15,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CommunityService {
 
-	private static CommunityMapper mapper;
+	private final CommunityMapper mapper;
 
 	// communityList 
 	public List<CommunityResponse> communityPage(int pageNum, int pageSize, String boardType) {
 		
 		// boardType »Æ¿Œ
-		if ( !boardType.equals("community") ) {
+		if ( !boardType.equals("COMMUNITY") ) {
 			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "communityæ∆¥‘" );
 		}
 		
