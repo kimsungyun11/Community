@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,18 +35,18 @@ public class CommunityController {
 		List<CommunityResponse> list = service.communityPage( pageNum, pageSize, boardType );
 		
 		// total
-		int total = service.tatalPage( pageSize, boardType );
+		int totalPages = service.tatalPage( pageSize, boardType );
 		
 		// community 리스트
 		model.addAttribute("posts", list);
 		// totalPage수
-		model.addAttribute("total", total);
+		model.addAttribute("totalPages", totalPages);
 		// boardType
 		model.addAttribute("boardType", boardType);
 		// pageSize
 		model.addAttribute("pageSize", pageSize);
 		// pageNum
-		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("currentPage", pageNum);
 		
 		return "communityBoard";
 	}
@@ -67,8 +68,16 @@ public class CommunityController {
 	
 	// 글 작성
 	@PostMapping("create")
-	public String communityCreate( HttpSession session ) {
-		return "";
+	public String communityCreate( HttpSession session, @ModelAttribute("dto") CommunityCreateResponse dto, Model model ) {
+		
+		// 유저 확인
+		Integer user = (Integer) session.getAttribute("userId");
+		
+		// 글 작성
+		service.createCommunityPost( user, dto );
+		
+		// 완료시 community페이지 이동
+		return "redirect:/community/communityBoard";
 	}
 	
 }

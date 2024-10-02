@@ -2,10 +2,12 @@ package com.ProgrammerCommunity.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
 
 @Mapper
@@ -19,5 +21,10 @@ public interface CommunityMapper {
 	// 게시물 수
 	@Select("SELECT COUNT(*) FROM posts WHERE board_type = #{boardType}")
 	int total(String boardType);
+
+	// 글 생성
+	@Insert("INSERT INTO POSTS (user_id, board_type, title, content, created_at) "
+			+ "VALUES (#{dto.userId}, #{dto.boardType}, #{dto.title}, #{dto.content}, #{dto.createdAt})")
+	void createCommunity( @Param("dto") CommunityCreateResponse dto);
 
 }

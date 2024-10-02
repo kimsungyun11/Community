@@ -1,5 +1,6 @@
 package com.ProgrammerCommunity.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.CommunityMapper;
+import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
+import com.ProgrammerCommunity.model.entity.BoardType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +47,20 @@ public class CommunityService {
 		int totalPage = ( int ) Math.ceil( (double) total / pageNum );
 		
 		return totalPage;
+	}
+
+	// 글 생성
+	public void createCommunityPost(Integer user, CommunityCreateResponse dto) {
+		
+		if ( user == null ) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "로그인 안했습니다");
+		}
+		
+		dto.setBoardType(BoardType.COMMUNITY);
+		dto.setCreatedAt(LocalDateTime.now());
+		dto.setUserId(user);
+		mapper.createCommunity( dto );
+		
 	}
 	
 }
