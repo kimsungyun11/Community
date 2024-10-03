@@ -6,11 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
+import com.ProgrammerCommunity.model.dto.response.CommunityDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
 import com.ProgrammerCommunity.service.CommunityService;
 
@@ -77,7 +79,18 @@ public class CommunityController {
 		service.createCommunityPost( user, dto );
 		
 		// 완료시 community페이지 이동
-		return "redirect:/community/communityBoard";
+		return "redirect:/community";
+	}
+	
+	// 글 상세 페이지
+	@GetMapping("detail/{postId}")
+	public String communityDetail( @PathVariable("postId") Integer postId, Model model ) {
+		
+		CommunityDetailResponse communityDetail = service.communityDetail( postId );
+		
+		model.addAttribute("communityDetail", communityDetail);
+		
+		return "";
 	}
 	
 }

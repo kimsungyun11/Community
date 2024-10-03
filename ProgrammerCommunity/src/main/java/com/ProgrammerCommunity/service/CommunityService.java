@@ -9,8 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.CommunityMapper;
 import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
+import com.ProgrammerCommunity.model.dto.response.CommunityDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
 import com.ProgrammerCommunity.model.entity.BoardType;
+import com.ProgrammerCommunity.model.entity.Posts;
 
 import lombok.RequiredArgsConstructor;
 
@@ -61,6 +63,19 @@ public class CommunityService {
 		dto.setUserId(user);
 		mapper.createCommunity( dto );
 		
+	}
+
+	// 글 상세 페이지 
+	public CommunityDetailResponse communityDetail(Integer postId) {
+		
+		// postid 확인
+		if ( postId == null ) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "글 정보가 없습니다");
+		}
+		
+		CommunityDetailResponse communityDetail =  mapper.communityDetailByPostid( postId );
+		
+		return communityDetail;
 	}
 	
 }
