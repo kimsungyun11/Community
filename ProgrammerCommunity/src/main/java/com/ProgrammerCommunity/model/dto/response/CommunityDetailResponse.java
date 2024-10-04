@@ -19,4 +19,5 @@ public class CommunityDetailResponse {
     private LocalDateTime updatedAt;
     private String username;
     private List<CommentResponse> comments;
+    private String boardType = "COMMUNITY";
 }

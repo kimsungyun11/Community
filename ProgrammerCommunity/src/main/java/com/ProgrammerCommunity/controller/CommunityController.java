@@ -86,11 +86,11 @@ public class CommunityController {
 	@GetMapping("detail/{postId}")
 	public String communityDetail( @PathVariable("postId") Integer postId, Model model ) {
 		
-		CommunityDetailResponse communityDetail = service.communityDetail( postId );
+		CommunityDetailResponse detailPage = service.communityDetail( postId );
 		
-		model.addAttribute("communityDetail", communityDetail);
-		
-		return "";
+		model.addAttribute("detailPage", detailPage);
+		model.addAttribute("comments", detailPage.getComments());
+		return "detailPage";
 	}
 	
 }

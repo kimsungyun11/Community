@@ -89,13 +89,13 @@ public class QnaPostController {
 	// 글 상세 페이지 기능
 	@GetMapping("/detail/{postId}")
 	public String detail(@PathVariable("postId") Integer postId, Model model) {
-	    QnaDetailResponse qnaDetailPage = service.getQnaDetail(postId);
-	    if (qnaDetailPage == null) {
+	    QnaDetailResponse detailPage = service.getQnaDetail(postId);
+	    if (detailPage == null) {
 	        return "redirect:/error";
 	    }
-	    model.addAttribute("qnaDetailPage", qnaDetailPage);
-	    model.addAttribute("comments", qnaDetailPage.getComments());
-	    return "qnaDetail";
+	    model.addAttribute("detailPage", detailPage);
+	    model.addAttribute("comments", detailPage.getComments());
+	    return "detailPage";
 	}
 	
 	// 태그 클릭 시 검색

@@ -19,7 +19,7 @@
         <!-- 게시글 목록 -->
         <div class="list-group" th:if="${not #lists.isEmpty(posts)}">
             <a th:each="post : ${posts}"
-               th:href="@{/community/post/{id}(id=${post.postId})}"
+               th:href="@{/community/detail/{id}(id=${post.postId})}"
                class="list-group-item list-group-item-action">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1" th:text="${post.title}">게시글 제목</h5>

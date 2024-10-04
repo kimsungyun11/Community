@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.ProgrammerCommunity.mapper.CommentMapper;
 import com.ProgrammerCommunity.mapper.CommunityMapper;
+import com.ProgrammerCommunity.model.dto.response.CommentResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class CommunityService {
 
 	private final CommunityMapper mapper;
+	private final CommentService commentService;
 
 	// communityList 
 	public List<CommunityResponse> communityPage(int pageNum, int pageSize, String boardType) {
@@ -74,6 +77,9 @@ public class CommunityService {
 		}
 		
 		CommunityDetailResponse communityDetail =  mapper.communityDetailByPostid( postId );
+		// 댓글 정보 추가
+        List<CommentResponse> comments = commentService.getCommentsByPostId(postId);
+        communityDetail.setComments(comments);
 		
 		return communityDetail;
 	}
