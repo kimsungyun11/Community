@@ -2,6 +2,7 @@ package com.ProgrammerCommunity.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -34,5 +35,13 @@ public interface CommunityMapper {
 			+ "JOIN Users b ON a.user_id = b.user_id "
 			+ "WHERE a.post_id = #{postId}")
 	CommunityDetailResponse communityDetailByPostid(Integer postId);
+
+	// 삭제 기능
+	@Delete("DLETE FROM DELETE WHERE post_id = #{postId} AND user_id = #{user}")
+	void deleteBypostId(Integer postId, Integer user);
+
+	// 게시글 유저 아이디
+	@Select("SELECE user_id FROM POST WHERE post_id = #{postId}")
+	Integer findUserByPostId(Integer postId);
 
 }

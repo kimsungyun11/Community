@@ -16,6 +16,7 @@ import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
 import com.ProgrammerCommunity.model.entity.BoardType;
 import com.ProgrammerCommunity.model.entity.Posts;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -82,6 +83,25 @@ public class CommunityService {
         communityDetail.setComments(comments);
 		
 		return communityDetail;
+	}
+	
+	// 글 삭제 기능
+	public void communityDelete(Integer postId, HttpSession session) {
+		// 로그인 유저 정보
+		Integer user = (Integer) session.getAttribute("userId");
+		// 삭제 기능
+		mapper.deleteBypostId( postId, user );
+		// 게시글 작성한 유저
+		Integer postUser = mapper.findUserByPostId(postId);
+		// 로그인 안했거나 작성자가 아니면 에러
+		if ( user == null ) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "로그인 안함");
+		} else if ( postUser != user ) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "게시글 작성자와 다릅니다");
+		}
+		
+		
+		
 	}
 	
 }

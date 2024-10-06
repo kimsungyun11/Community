@@ -93,4 +93,20 @@ public class CommunityController {
 		return "detailPage";
 	}
 	
+	// 글 삭세 기능
+	@PostMapping("/delete/{postId}")
+	public String communityDelete( @PathVariable("postId") Integer postId, HttpSession session ) {
+		
+		// 삭제 기능
+		service.communityDelete( postId, session );
+		
+		// 로그인 안하면 로그인 페이지
+		if ( session == null ) {
+			return "redirect:/login/loginpage";
+		}
+		
+		// 삭제 완료 후 community 페이지로 리다이렉트
+		return "redirect:/community";
+	}
+	
 }
