@@ -26,8 +26,8 @@
         </div>
 
         <div th:if="${session.userId != null and session.userId == detailPage.userId}" class="mb-4">
-            <a th:href="@{/${detailPage.boardType.toLowerCase()}/edit/{postId}(postId=${detailPage.postId})}" class="btn btn-primary">수정</a>
-            <form th:action="@{/${detailPage.boardType.toLowerCase()}/delete/{postId}(postId=${detailPage.postId})}" method="post" style="display: inline;">
+            <a th:href="@{${detailPage.boardType == 'QNA' ? '/qna' : '/community'} + '/edit/' + ${detailPage.postId}}" class="btn btn-primary">수정</a>
+            <form th:action="@{${detailPage.boardType == 'QNA' ? '/qna' : '/community'} + '/delete/' + ${detailPage.postId}}" method="post" style="display: inline;">
                 <button type="submit" class="btn btn-danger" onclick="return confirm('정말로 이 게시글을 삭제하시겠습니까?');">삭제</button>
             </form>
         </div>

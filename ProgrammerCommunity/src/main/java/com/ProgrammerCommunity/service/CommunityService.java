@@ -92,16 +92,15 @@ public class CommunityService {
 		// 삭제 기능
 		mapper.deleteBypostId( postId, user );
 		// 게시글 작성한 유저
-		Integer postUser = mapper.findUserByPostId(postId);
+		//Integer postUser = mapper.findUserByPostId(postId);
+		//System.err.println( "postUser" + postUser );
+		//System.err.println( "User" + user );
 		// 로그인 안했거나 작성자가 아니면 에러
 		if ( user == null ) {
 			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "로그인 안함");
-		} else if ( postUser != user ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "게시글 작성자와 다릅니다");
-		}
-		
-		
-		
+		}// else if ( postUser != user ) {
+		//	throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "게시글 작성자와 다릅니다");
+		//}
 	}
 	
 }

@@ -34,14 +34,14 @@ public interface CommunityMapper {
 			+ "FROM Posts a "
 			+ "JOIN Users b ON a.user_id = b.user_id "
 			+ "WHERE a.post_id = #{postId}")
-	CommunityDetailResponse communityDetailByPostid(Integer postId);
+	CommunityDetailResponse communityDetailByPostid( @Param("postId") Integer postId);
 
 	// 삭제 기능
-	@Delete("DLETE FROM DELETE WHERE post_id = #{postId} AND user_id = #{user}")
-	void deleteBypostId(Integer postId, Integer user);
+	@Delete("DELETE FROM posts WHERE user_id = #{user} AND post_id = #{postId}")
+	void deleteBypostId( @Param("postId") Integer postId, @Param("user") Integer user);
 
 	// 게시글 유저 아이디
-	@Select("SELECE user_id FROM POST WHERE post_id = #{postId}")
-	Integer findUserByPostId(Integer postId);
+	@Select("SELECE user_id FROM POSTS WHERE post_id = #{postId}")
+	Integer findUserByPostId(@Param("postId") Integer postId);
 
 }
