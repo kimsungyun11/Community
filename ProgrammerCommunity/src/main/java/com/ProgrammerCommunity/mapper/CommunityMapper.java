@@ -7,10 +7,13 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
+import com.ProgrammerCommunity.model.dto.request.CommunityUpdateRequest;
 import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
+import com.ProgrammerCommunity.model.dto.response.EditResponse;
 
 @Mapper
 public interface CommunityMapper {
@@ -40,8 +43,13 @@ public interface CommunityMapper {
 	@Delete("DELETE FROM posts WHERE user_id = #{user} AND post_id = #{postId}")
 	void deleteBypostId( @Param("postId") Integer postId, @Param("user") Integer user);
 
-	// 게시글 유저 아이디
-	@Select("SELECE user_id FROM POSTS WHERE post_id = #{postId}")
-	Integer findUserByPostId(@Param("postId") Integer postId);
+	// 수정 할 글 정보
+	@Select("SELECT post_id, user_id, title, content, updated_at FROM Posts WHERE post_id = #{postId}")
+	EditResponse updateCommunityByPostId( @Param("postId") Integer postId);
+
+	// 글 수정 기능
+	@Update("UPDATE Posts SET title = #{title}, content = #{content}, updated_at = CURRENT_TIMESTAMP " +
+            "WHERE post_id = #{postId}")
+	void communityUpdate(Integer postId, Integer user, CommunityUpdateRequest dto);
 
 }

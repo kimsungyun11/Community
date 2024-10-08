@@ -9,10 +9,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.CommentMapper;
 import com.ProgrammerCommunity.mapper.CommunityMapper;
+import com.ProgrammerCommunity.model.dto.request.CommunityUpdateRequest;
 import com.ProgrammerCommunity.model.dto.response.CommentResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityCreateResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
+import com.ProgrammerCommunity.model.dto.response.EditResponse;
 import com.ProgrammerCommunity.model.entity.BoardType;
 import com.ProgrammerCommunity.model.entity.Posts;
 
@@ -91,16 +93,34 @@ public class CommunityService {
 		Integer user = (Integer) session.getAttribute("userId");
 		// 삭제 기능
 		mapper.deleteBypostId( postId, user );
-		// 게시글 작성한 유저
-		//Integer postUser = mapper.findUserByPostId(postId);
-		//System.err.println( "postUser" + postUser );
-		//System.err.println( "User" + user );
+
 		// 로그인 안했거나 작성자가 아니면 에러
 		if ( user == null ) {
 			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "로그인 안함");
-		}// else if ( postUser != user ) {
-		//	throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "게시글 작성자와 다릅니다");
-		//}
+		}
+	}
+
+	// 글 수정 페이지 이동
+	public EditResponse edit(Integer postId, HttpSession session) {
+		// 로그인 유저 정보
+		Integer user = (Integer) session.getAttribute("userId");
+		// 로그인 확인
+		if ( user == null ) {
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "로그인 안했습니다");
+		}
+		// 수정 할 글 정보
+		EditResponse update = mapper.updateCommunityByPostId( postId );
+		
+		return update;
+	}
+
+	// 글 수정 기능
+	public void update(Integer postId, HttpSession session, CommunityUpdateRequest dto) {
+		
+		Integer user = (Integer) session.getAttribute("postId");
+		
+		mapper.communityUpdate( postId, user, dto );
+		
 	}
 	
 }
