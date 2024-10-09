@@ -119,9 +119,9 @@ public class CommunityController {
 			return "redirect:/login/loginpage";
 		}
 		// 수정 해야 할 글 정보
-		EditResponse update = service.edit( postId, session );
+		EditResponse editData = service.edit( postId, session );
 		
-		model.addAttribute("update", update);
+		model.addAttribute("post", editData);
 		// 수정 페이지 이동
 		return "editForm";
 	}

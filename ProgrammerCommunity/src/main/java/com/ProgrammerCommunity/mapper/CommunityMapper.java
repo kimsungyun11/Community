@@ -48,8 +48,8 @@ public interface CommunityMapper {
 	EditResponse updateCommunityByPostId( @Param("postId") Integer postId);
 
 	// 글 수정 기능
-	@Update("UPDATE Posts SET title = #{title}, content = #{content}, updated_at = CURRENT_TIMESTAMP " +
+	@Update("UPDATE Posts SET title = #{dto.title}, content = #{dto.content}, updated_at = CURRENT_TIMESTAMP " +
             "WHERE post_id = #{postId}")
-	void communityUpdate(Integer postId, Integer user, CommunityUpdateRequest dto);
+	void communityUpdate( @Param("postId") Integer postId, @Param("dto") CommunityUpdateRequest dto);
 
 }

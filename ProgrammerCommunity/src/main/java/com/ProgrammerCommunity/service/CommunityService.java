@@ -117,9 +117,7 @@ public class CommunityService {
 	// 글 수정 기능
 	public void update(Integer postId, HttpSession session, CommunityUpdateRequest dto) {
 		
-		Integer user = (Integer) session.getAttribute("postId");
-		
-		mapper.communityUpdate( postId, user, dto );
+		mapper.communityUpdate( postId, dto );
 		
 	}
 	
