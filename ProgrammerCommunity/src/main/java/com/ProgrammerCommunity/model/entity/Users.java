@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Users {
 	private Integer userId;
-	private String username;
-	private String email;
-	private String password;
-	private LocalDateTime createdAt;
+    private String username;
+    private String email;
+    private String password;
+    private LocalDateTime createdAt;
+    private Boolean isAdmin;
 }
