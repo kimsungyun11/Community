@@ -2,14 +2,12 @@ package com.ProgrammerCommunity.service;
 
 import org.springframework.stereotype.Service;
 
-/**
- * 사용자 권한을 확인하는 서비스 클래스입니다.
- * 각 게시판 유형과 작업에 대한 권한을 검사합니다.
- */
+import com.ProgrammerCommunity.model.entity.Action;
+
 @Service
 public class PermissionService {
 	
-	public boolean hasPermission(String boardType, String action, Boolean isAdmin) {
+	public boolean hasPermission(String boardType, Action action, Boolean isAdmin) {
 		// 관리자 여부가 null인 경우 (로그인하지 않은 경우) 권한 없음
 		if (isAdmin == null) {
 			return false;
@@ -24,7 +22,7 @@ public class PermissionService {
 		switch (boardType) {
 		case "NOTICE":
 			// 공지사항은 일반 사용자에게 읽기 권한만 부여
-			return "READ".equals(action);
+			return action == Action.READ;
 		case "QNA":
 		case "COMMUNITY":
 			// QNA와 COMMUNITY 게시판은 일반 사용자에게 모든 권한 부여
