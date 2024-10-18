@@ -1,45 +1,60 @@
 package com.ProgrammerCommunity.service;
 
-import java.util.List;
-
+import com.ProgrammerCommunity.mapper.NoticeMapper;
+import com.ProgrammerCommunity.model.dto.request.NoticeUpdateRequest;
+import com.ProgrammerCommunity.model.dto.response.NoticeCreateResponse;
+import com.ProgrammerCommunity.model.dto.response.NoticeDetailResponse;
+import com.ProgrammerCommunity.model.dto.response.NoticeResponse;
+import com.ProgrammerCommunity.model.entity.BoardType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.ProgrammerCommunity.mapper.NoticeMapper;
-import com.ProgrammerCommunity.model.dto.response.QnaListResponse;
-
-import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class NoticeService {
 
-	private static NoticeMapper noticeMapper;
+    private final NoticeMapper noticeMapper;
 
-	private static PermissionService permissionService;
-	// 글 수
-	public int getTotalnoticeCount(String boardType, int pageSize) {
-		// 글 갯수
-		int totalItems = noticeMapper.totalPage(boardType);
-		// 페이지 수
-		int totalPages = (int) Math.ceil((double) totalItems / pageSize);
+    // 공지사항 목록 조회
+    public List<NoticeResponse> getNoticeList(int pageNum, int pageSize) {
+        int offset = (pageNum - 1) * pageSize;
+        return noticeMapper.getNoticeList(offset, pageSize);
+    }
 
-		return totalPages;
-	}
-	// 글 목록
-	public List<QnaListResponse> noticeList(String boardType, int pageSize, int pageNum) {
-		// 게시판 확인
-		if ( !boardType.equals("NOTICE") ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "NOTICE게시판이 아님");
-		}
-		
-		// offSet 설정
-		int offset = ( pageNum - 1 ) * pageSize;
-		// 글 목록
-		List<QnaListResponse> notice = noticeMapper.qnaPageList( boardType, offset, pageSize );
-		
-		return notice;
-	}
+    // 전체 페이지수 계산
+    public int getTotalPages(int pageSize) {
+        int total = noticeMapper.getTotalNoticeCount();
+        return (int) Math.ceil((double) total / pageSize);
+    }
 
+    // 새 공지사항 생성
+    public void createNotice(Integer userId, NoticeCreateResponse dto) {
+        dto.setBoardType(BoardType.NOTICE);
+        dto.setCreatedAt(LocalDateTime.now());
+        dto.setUserId(userId);
+        noticeMapper.createNotice(dto);
+    }
+
+    // 공지사항 상세 페이지
+    public NoticeDetailResponse getNoticeDetail(Integer postId) {
+        if (postId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "공지사항 ID가 없습니다.");
+        }
+        return noticeMapper.getNoticeDetailByPostId(postId);
+    }
+
+    // 공지사항 삭제
+    public void deleteNotice(Integer postId) {
+        noticeMapper.deleteNoticeByPostId(postId);
+    }
+
+    // 공지사항 수정
+    public void updateNotice(Integer postId, NoticeUpdateRequest dto) {
+        noticeMapper.updateNotice(postId, dto);
+    }
 }
