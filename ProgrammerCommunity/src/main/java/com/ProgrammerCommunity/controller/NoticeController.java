@@ -57,7 +57,7 @@ public class NoticeController {
             return "redirect:/error";
         }
         model.addAttribute("dto", new NoticeCreateResponse());
-        return "noticeEdit";
+        return "noticeWrite";
     }
     
 

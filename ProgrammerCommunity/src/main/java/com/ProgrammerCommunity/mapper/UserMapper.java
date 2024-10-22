@@ -15,12 +15,13 @@ import com.ProgrammerCommunity.model.entity.Users;
 public interface UserMapper {
 	
 	// 회원가입 기능
-	@Insert("INSERT INTO Users (username, email, password, created_at) " +
-            "VALUES (#{username}, #{email}, #{password}, #{createdAt})")
+	@Insert("INSERT INTO Users (username, email, password, created_at, is_admin) " +
+            "VALUES (#{username}, #{email}, #{password}, #{createdAt}, #{isAdmin})")
     void insertUser(@Param("username") String username, 
                     @Param("email") String email, 
                     @Param("password") String hashedPassword, 
-                    @Param("createdAt") LocalDateTime createdAt);
+                    @Param("createdAt") LocalDateTime createdAt,
+                    @Param("isAdmin") Boolean isAdmin);
 
 	// 닉네임 중복 확인
 	@Select("SELECT COUNT(*) > 0 FROM Users WHERE username = #{username}")
@@ -31,7 +32,8 @@ public interface UserMapper {
     boolean existsByEmail(String email);
 
     // 로그인 기능
-    @Select("SELECT * FROM users WHERE email = #{email}")
+    @Select("SELECT user_id, username, email, password, created_at, is_admin " +
+            "FROM users WHERE email = #{email}")
     Users findByEmail(@Param("email") String email);
 
     

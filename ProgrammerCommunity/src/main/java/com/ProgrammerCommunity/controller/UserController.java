@@ -30,7 +30,7 @@ public class UserController {
 	@GetMapping("/loginpage")
 	public String loginpage(Model model) {
         model.addAttribute("LoginRequest", new LoginRequest());
-        return "login";  // 여기서 "login"은 템플릿 이름입니다.
+        return "login";
     }
 
 	// 회원가입 페이지 이동
@@ -55,19 +55,14 @@ public class UserController {
 	// 로그인 기능
 	@PostMapping("/login")
 	public String login(@ModelAttribute LoginRequest dto, HttpSession session) {
-	    try {
 	        Users user = userService.login(dto);
 	        if (user != null && user.getUserId() != null) {
 	            session.setAttribute("userId", user.getUserId());
+	            session.setAttribute("isAdmin", user.getIsAdmin()); // isAdmin 추가
 	            return "redirect:/main";
 	        } else {
 	            return "redirect:/login?error";
 	        }
-	    } catch (ResponseStatusException e) {
-	        return "redirect:/login?error";
-	    } catch (Exception e) {
-	        return "redirect:/login?error";
-	    }
 	}
 	
 	// 로그아웃 기능

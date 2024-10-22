@@ -37,8 +37,9 @@ public class UserService {
         
         String hashedPassword = PasswordHasher.hashPassword(dto.getPassword());
         LocalDateTime createdAt = LocalDateTime.now();
+        Boolean isAdmin = false; // 기본값으로 false 설정
         
-        userMapper.insertUser(dto.getUsername(), dto.getEmail(), hashedPassword, createdAt);
+        userMapper.insertUser(dto.getUsername(), dto.getEmail(), hashedPassword, createdAt, isAdmin);
     }
 
 	// 로그인 기능
@@ -47,6 +48,12 @@ public class UserService {
         if (user == null || !user.getPassword().equals(PasswordHasher.hashPassword(dto.getPassword()))) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이메일 또는 비밀번호가 올바르지 않습니다.");
         }
+        
+        // isAdmin이 null인 경우 false로 설정
+        if (user.getIsAdmin() == null) {
+            user.setIsAdmin(false);
+        }
+        
         return user;
     }
 
