@@ -30,7 +30,7 @@ public class MainPageController {
 		// 게시판 최신순 5개
 		RecentBoardResponse board = mainPageService.index();
 		
-		
+		model.addAttribute("recentBoard", board);
 		return "index";
 	}
 	
