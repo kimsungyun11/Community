@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
 import com.ProgrammerCommunity.model.entity.Users;
@@ -14,7 +12,7 @@ import com.ProgrammerCommunity.model.entity.Users;
 @Mapper
 public interface UserMapper {
 	
-	// È¸¿ø°¡ÀÔ ±â´É
+	// íšŒì›ê°€ì… ê¸°ëŠ¥
 	@Insert("INSERT INTO Users (username, email, password, created_at, is_admin) " +
             "VALUES (#{username}, #{email}, #{password}, #{createdAt}, #{isAdmin})")
     void insertUser(@Param("username") String username, 
@@ -23,15 +21,15 @@ public interface UserMapper {
                     @Param("createdAt") LocalDateTime createdAt,
                     @Param("isAdmin") Boolean isAdmin);
 
-	// ´Ğ³×ÀÓ Áßº¹ È®ÀÎ
+	// ë‹‰ë„¤ì„ ì¤‘ë³µ í™•ì¸
 	@Select("SELECT COUNT(*) > 0 FROM Users WHERE username = #{username}")
     boolean existsByUsername(String username);
 
-	// ÀÌ¸ŞÀÏ Áßº¹ È®ÀÎ
+	// ì´ë©”ì¼ ì¤‘ë³µ í™•ì¸
     @Select("SELECT COUNT(*) > 0 FROM Users WHERE email = #{email}")
     boolean existsByEmail(String email);
 
-    // ·Î±×ÀÎ ±â´É
+    // ë¡œê·¸ì¸ ê¸°ëŠ¥
     @Select("SELECT user_id, username, email, password, created_at, is_admin " +
             "FROM users WHERE email = #{email}")
     Users findByEmail(@Param("email") String email);

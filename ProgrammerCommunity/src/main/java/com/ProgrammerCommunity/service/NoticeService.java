@@ -20,46 +20,46 @@ public class NoticeService {
 
     private final NoticeMapper noticeMapper;
 
-    // °øÁö»çÇ× ¸ñ·Ï Á¶È¸
+    // ê³µì§€ì‚¬í•­ ëª©ë¡ ì¡°íšŒ
     public List<NoticeResponse> getNoticeList(int pageNum, int pageSize) {
-    	// offset °è»ê
+    	// offset ê³„ì‚°
         int offset = (pageNum - 1) * pageSize;
         return noticeMapper.getNoticeList(offset, pageSize);
     }
 
-    // ÀüÃ¼ ÆäÀÌÁö¼ö °è»ê
+    // ì „ì²´ í˜ì´ì§€ìˆ˜ ê³„ì‚°
     public int getTotalPages(int pageSize) {
-    	// ÃÑ °Ô½ÃÆÇ ¼ö
+    	// ì´ ê²Œì‹œíŒ ìˆ˜
         int total = noticeMapper.getTotalNoticeCount();
         return (int) Math.ceil((double) total / pageSize);
     }
 
-    // »õ °øÁö»çÇ× »ı¼º
+    // ìƒˆ ê³µì§€ì‚¬í•­ ìƒì„±
     public void createNotice(Integer userId, NoticeCreateResponse dto) {
-    	// °Ô½ÃÆÇ Å¸ÀÔ 
+    	// ê²Œì‹œíŒ íƒ€ì… 
         dto.setBoardType(BoardType.NOTICE);
-        // ½Ã°£ ¼³Á¤
+        // ì‹œê°„ ì„¤ì •
         dto.setCreatedAt(LocalDateTime.now());
-        // À¯Àú ¾ÆÀÌµğ
+        // ìœ ì € ì•„ì´ë””
         dto.setUserId(userId);
         noticeMapper.createNotice(dto);
     }
 
-    // °øÁö»çÇ× »ó¼¼ ÆäÀÌÁö
+    // ê³µì§€ì‚¬í•­ ìƒì„¸ í˜ì´ì§€
     public NoticeDetailResponse getNoticeDetail(Integer postId) {
-    	// °Ô½ÃÆÇ ¾øÀ¸¸é ¿¡·¯
+    	// ê²Œì‹œíŒ ì—†ìœ¼ë©´ ì—ëŸ¬
         if (postId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "°øÁö»çÇ× ID°¡ ¾ø½À´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ê³µì§€ì‚¬í•­ IDê°€ ì—†ìŠµë‹ˆë‹¤.");
         }
         return noticeMapper.getNoticeDetailByPostId(postId);
     }
 
-    // °øÁö»çÇ× »èÁ¦
+    // ê³µì§€ì‚¬í•­ ì‚­ì œ
     public void deleteNotice(Integer postId) {
         noticeMapper.deleteNoticeByPostId(postId);
     }
 
-    // °øÁö»çÇ× ¼öÁ¤
+    // ê³µì§€ì‚¬í•­ ìˆ˜ì •
     public void updateNotice(Integer postId, NoticeUpdateRequest dto) {
         noticeMapper.updateNotice(postId, dto);
     }

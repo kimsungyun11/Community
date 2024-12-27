@@ -32,15 +32,15 @@ public class CommentController {
         }
         
         if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "´ñ±Û ³»¿ëÀ» È®ÀÎÇØÁÖ¼¼¿ä.");
+            model.addAttribute("error", "ëŒ“ê¸€ ë‚´ìš©ì„ í™•ì¸í•´ì£¼ì„¸ìš”.");
             return "redirect:/qna/detail/" + postId;
         }
         
         try {
             commentService.createComment(commentForm, postId, userId);
-            model.addAttribute("message", "´ñ±ÛÀÌ ¼º°øÀûÀ¸·Î ÀÛ¼ºµÇ¾ú½À´Ï´Ù.");
+            model.addAttribute("message", "ëŒ“ê¸€ì´ ì„±ê³µì ìœ¼ë¡œ ì‘ì„±ë˜ì—ˆìŠµë‹ˆë‹¤.");
         } catch (Exception e) {
-            model.addAttribute("error", "´ñ±Û ÀÛ¼º Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+            model.addAttribute("error", "ëŒ“ê¸€ ì‘ì„± ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
         }
         
         return "redirect:/qna/detail/" + postId;
@@ -66,10 +66,10 @@ public class CommentController {
         
         try {
             Integer postId = commentService.deleteComment(commentId, userId);
-            model.addAttribute("message", "´ñ±ÛÀÌ ¼º°øÀûÀ¸·Î »èÁ¦µÇ¾ú½À´Ï´Ù.");
+            model.addAttribute("message", "ëŒ“ê¸€ì´ ì„±ê³µì ìœ¼ë¡œ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
             return "redirect:/qna/detail/" + postId;
         } catch (Exception e) {
-            model.addAttribute("error", "´ñ±Û »èÁ¦ Áß ¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.");
+            model.addAttribute("error", "ëŒ“ê¸€ ì‚­ì œ ì¤‘ ì˜¤ë¥˜ê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
             return "redirect:/error";
         }
     }

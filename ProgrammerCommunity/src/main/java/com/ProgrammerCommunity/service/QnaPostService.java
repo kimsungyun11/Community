@@ -27,22 +27,22 @@ public class QnaPostService {
 	private final QnaPostMapper mapper;
 	private final CommentService commentService;
 
-	// ±Û ÀÛ¼º ±â´É
+	// ê¸€ ì‘ì„± ê¸°ëŠ¥
 	public void createQnaPost(@Valid QnaCreateRequest dto) {
-		// ÇöÀç ½Ã°¢
+		// í˜„ì¬ ì‹œê°
         dto.setCreatedAt(LocalDateTime.now());
         dto.setBoardType(BoardType.QNA);
         mapper.createQna(dto);
     }
 	
-	// °Ô½ÃÆÇ ÆäÀÌÁö ÀÌµ¿ ±â´É
+	// ê²Œì‹œíŒ í˜ì´ì§€ ì´ë™ ê¸°ëŠ¥
 	public List<QnaListResponse> qnaList(String boardType, int pageSize, int pageNum) {
 		
 		if ( !boardType.equals("QNA") ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "QNA°Ô½ÃÆÇÀÌ ¾Æ´Ô");
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "QNAê²Œì‹œíŒì´ ì•„ë‹˜");
 		}
 		
-		// offSet ¼³Á¤
+		// offSet ì„¤ì •
 		int offset = ( pageNum - 1 ) * pageSize;
 		
 		List<QnaListResponse> qna = mapper.qnaPageList( boardType, offset, pageSize );
@@ -50,7 +50,7 @@ public class QnaPostService {
 		return qna;
 	}
 
-	// qna ÆäÀÌÁö °¹¼ö
+	// qna í˜ì´ì§€ ê°¯ìˆ˜
 	public int getTotalQnaCount(String boardType, int pageSize) {
 		
 		int totalItems = mapper.totalPage( boardType );
@@ -60,24 +60,24 @@ public class QnaPostService {
 		return totalPages;
 	}
 
-	// ±Û »ó¼¼ ÆäÀÌÁö ±â´É
+	// ê¸€ ìƒì„¸ í˜ì´ì§€ ê¸°ëŠ¥
 	public QnaDetailResponse getQnaDetail(Integer postId) {
         if (postId == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "°Ô½Ã±ÛÀÌ ¾øÀ½");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ê²Œì‹œê¸€ì´ ì—†ìŒ");
         }
         QnaDetailResponse qna = mapper.findByPostId(postId);
         if (qna == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "°Ô½Ã±ÛÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ê²Œì‹œê¸€ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
         
-        // ´ñ±Û Á¤º¸ Ãß°¡
+        // ëŒ“ê¸€ ì •ë³´ ì¶”ê°€
         List<CommentResponse> comments = commentService.getCommentsByPostId(postId);
         qna.setComments(comments);
         
         return qna;
     }
 
-	// ÅÂ±× °Ë»ö ±â´É
+	// íƒœê·¸ ê²€ìƒ‰ ê¸°ëŠ¥
 	public List<QnaTagsSearchResponse> tagSearch(String tags, int pageSize, int pageNum) {
         int offset = (pageNum - 1) * pageSize;
         return mapper.searchByTag(tags, pageSize, offset);
@@ -88,50 +88,50 @@ public class QnaPostService {
         return (int) Math.ceil((double) totalCount / pageSize);
     }
 
-    // ±Û »èÁ¦ ±â´É
+    // ê¸€ ì‚­ì œ ê¸°ëŠ¥
 	public void delete(Integer user, Integer postId) {
 		
-		// user nullÀÎÁö È®ÀÎ
+		// user nullì¸ì§€ í™•ì¸
 		if (user == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "·Î±×ÀÎÀÌ ÇÊ¿äÇÕ´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "ë¡œê·¸ì¸ì´ í•„ìš”í•©ë‹ˆë‹¤.");
         }
 		
-		// »èÁ¦
+		// ì‚­ì œ
         mapper.deleteQna(user, postId);
 
 	}
 	
-	// ¼öÁ¤ ÆäÀÌÁö ÀÌµ¿
+	// ìˆ˜ì • í˜ì´ì§€ ì´ë™
 	public QnaEditResponse getQnaForEdit(Integer postId, Integer userId) {
 		
-		// ¼öÁ¤ ÇØ¾ß ÇÒ Á¤º¸
+		// ìˆ˜ì • í•´ì•¼ í•  ì •ë³´
         QnaEditResponse qna = mapper.findByPostIdForEdit(postId);
         
-        // ±Û Á¤º¸°¡ ¾øÀ¸¸é ¿¡·¯
+        // ê¸€ ì •ë³´ê°€ ì—†ìœ¼ë©´ ì—ëŸ¬
         if (qna == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "°Ô½Ã±ÛÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ê²Œì‹œê¸€ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
         }
         
-        // ±Û ÀÛ¼ºÀÚ°¡ ¾Æ´Ï¸é ¿¡·¯
+        // ê¸€ ì‘ì„±ìê°€ ì•„ë‹ˆë©´ ì—ëŸ¬
         if (!qna.getUserId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "¼öÁ¤ ±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ìˆ˜ì • ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤.");
         }
         
         return qna;
     }
 
-	// ±Û ¼öÁ¤ 
+	// ê¸€ ìˆ˜ì • 
     public void updateQna(Integer postId, Integer userId, QnaUpdateRequest updateRequest) {
     	
-    	// ±Û Á¤º¸
+    	// ê¸€ ì •ë³´
         QnaDetailResponse existingQna = mapper.findByPostId(postId);
         
-        // ±Û Á¤º¸°¡ ¾ø°Å³ª ±Û ÀÛ¼ºÀÚ°¡ ¾Æ´Ï¸é ¿¡·¯
+        // ê¸€ ì •ë³´ê°€ ì—†ê±°ë‚˜ ê¸€ ì‘ì„±ìê°€ ì•„ë‹ˆë©´ ì—ëŸ¬
         if (existingQna == null || !existingQna.getUserId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "¼öÁ¤ ±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ìˆ˜ì • ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤.");
         }
         
-        // ±Û ¼öÁ¤
+        // ê¸€ ìˆ˜ì •
         mapper.updateQna(postId, updateRequest.getTitle(), updateRequest.getContent(), updateRequest.getTags());
     }
 	

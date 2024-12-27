@@ -27,28 +27,28 @@ public class CommentService {
     
     private final CommentMapper commentMapper;
 
-    // ´ñ±Û »ı¼º ¸Ş¼­µå
+    // ëŒ“ê¸€ ìƒì„± ë©”ì„œë“œ
     public void createComment(CommentCreateRequest dto, Integer postId, Integer userId) {
         dto.setPostId(postId);
         dto.setUserId(userId);
         dto.setCreatedAt(LocalDateTime.now());
 
         if (dto.getParentCommentId() == null || dto.getParentCommentId() == 0) {
-            dto.setParentCommentId(null);  // null·Î ¼³Á¤
+            dto.setParentCommentId(null);  // nullë¡œ ì„¤ì •
         }
         commentMapper.insertComment(dto);
 
     }
     
-    // Æ¯Á¤ °Ô½Ã±ÛÀÇ ¸ğµç ´ñ±ÛÀ» Á¶È¸ÇÏ°í ±¸Á¶È­ÇÏ´Â ¸Ş¼­µå
+    // íŠ¹ì • ê²Œì‹œê¸€ì˜ ëª¨ë“  ëŒ“ê¸€ì„ ì¡°íšŒí•˜ê³  êµ¬ì¡°í™”í•˜ëŠ” ë©”ì„œë“œ
     public List<CommentResponse> getCommentsByPostId(Integer postId) {
-        // µ¥ÀÌÅÍº£ÀÌ½º¿¡¼­ ¸ğµç ´ñ±ÛÀ» °¡Á®¿È
+        // ë°ì´í„°ë² ì´ìŠ¤ì—ì„œ ëª¨ë“  ëŒ“ê¸€ì„ ê°€ì ¸ì˜´
         List<CommentResponse> allComments = commentMapper.findByPostId(postId);
-        // ´ñ±ÛÀ» ±¸Á¶È­ÇÏ¿© ¹İÈ¯
+        // ëŒ“ê¸€ì„ êµ¬ì¡°í™”í•˜ì—¬ ë°˜í™˜
         return organizeComments(allComments);
     }
     
-    // ´ñ±ÛÀ» °èÃş ±¸Á¶·Î Á¤¸®ÇÏ´Â private ¸Ş¼­µå
+    // ëŒ“ê¸€ì„ ê³„ì¸µ êµ¬ì¡°ë¡œ ì •ë¦¬í•˜ëŠ” private ë©”ì„œë“œ
     private List<CommentResponse> organizeComments(List<CommentResponse> allComments) {
         Map<Integer, CommentResponse> commentMap = new HashMap<>();
         List<CommentResponse> rootComments = new ArrayList<>();
@@ -70,11 +70,11 @@ public class CommentService {
         return rootComments;
     }
 
-    // ´ñ±Û »èÁ¦ ¸Ş¼­µå
+    // ëŒ“ê¸€ ì‚­ì œ ë©”ì„œë“œ
     public Integer deleteComment(Integer commentId, Integer userId) {
         Comments comment = commentMapper.findById(commentId);
         if (comment == null || !comment.getUserId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "»èÁ¦ ±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ì‚­ì œ ê¶Œí•œì´ ì—†ìŠµë‹ˆë‹¤.");
         }
         commentMapper.deleteComment(commentId);
         return comment.getPostId();

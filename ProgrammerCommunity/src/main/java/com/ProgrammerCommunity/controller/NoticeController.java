@@ -23,36 +23,36 @@ public class NoticeController {
     private final NoticeService noticeService;
     private final PermissionService permissionService;
 
-    // °øÁö »çÇ× ¸ñ·Ï ÀÌµ¿
+    // ê³µì§€ ì‚¬í•­ ëª©ë¡ ì´ë™
     @GetMapping
     public String noticeList(Model model,
                              @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                              @RequestParam( name = "boardType", defaultValue = "NOTICE" ) String boardType) {
-    	// ±Û ¸ñ·Ï
+    	// ê¸€ ëª©ë¡
         List<NoticeResponse> noticeList = noticeService.getNoticeList(pageNum, pageSize);
-        // ÆäÀÌÁö ¼ö
+        // í˜ì´ì§€ ìˆ˜
         int totalPages = noticeService.getTotalPages(pageSize);
-        // ±Û ¸ñ·Ï
+        // ê¸€ ëª©ë¡
         model.addAttribute("posts", noticeList);
-        // ÆäÀÌÁö ¹øÈ£
+        // í˜ì´ì§€ ë²ˆí˜¸
         model.addAttribute("currentPage", pageNum);
-        // ÆäÀÌÁö Å©±â
+        // í˜ì´ì§€ í¬ê¸°
         model.addAttribute("pageSize", pageSize);
-        // ÃÑ ÆäÀÌÁö ¼ö
+        // ì´ í˜ì´ì§€ ìˆ˜
         model.addAttribute("totalPages", totalPages);
-        // °Ô½ÃÆÇ Å¸ÀÔ
+        // ê²Œì‹œíŒ íƒ€ì…
         model.addAttribute("boardType", boardType);
 
         return "noticeBoard";
     }
 
-    // °øÁö»çÇ× ÀÛ¼º ÆäÀÌÁö ÀÌµ¿
+    // ê³µì§€ì‚¬í•­ ì‘ì„± í˜ì´ì§€ ì´ë™
     @GetMapping("/write")
     public String writePage(Model model, HttpSession session) {
-    	// °ü¸®ÀÚ È®ÀÎ
+    	// ê´€ë¦¬ì í™•ì¸
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        // °ü¸®ÀÚ ¾Æ´Ï¸é ¿¡·¯
+        // ê´€ë¦¬ì ì•„ë‹ˆë©´ ì—ëŸ¬
         if (!permissionService.hasPermission("NOTICE", Action.CREATE, isAdmin)) {
             return "redirect:/error";
         }
@@ -61,36 +61,36 @@ public class NoticeController {
     }
     
 
-    // °øÁö»çÇ× »ı¼º
+    // ê³µì§€ì‚¬í•­ ìƒì„±
     @PostMapping("/create")
     public String createNotice(@ModelAttribute("dto") NoticeCreateResponse dto, HttpSession session) {
-    	// °ü¸®ÀÚ È®ÀÎ
+    	// ê´€ë¦¬ì í™•ì¸
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        // °ü¸®ÀÚ ¾Æ´Ï¸é ¿¡·¯
+        // ê´€ë¦¬ì ì•„ë‹ˆë©´ ì—ëŸ¬
         if (!permissionService.hasPermission("NOTICE", Action.CREATE, isAdmin)) {
             return "redirect:/error";
         }
-        // À¯Àú Á¤º¸
+        // ìœ ì € ì •ë³´
         Integer userId = (Integer) session.getAttribute("userId");
         noticeService.createNotice(userId, dto);
         return "redirect:/notice";
     }
 
-    // °øÁö»çÇ× »ó¼¼ ³»¿ë
+    // ê³µì§€ì‚¬í•­ ìƒì„¸ ë‚´ìš©
     @GetMapping("/detail/{postId}")
     public String noticeDetail(@PathVariable("postId") Integer postId, Model model) {
-    	// »ó¼¼ ³»¿ë
+    	// ìƒì„¸ ë‚´ìš©
         NoticeDetailResponse detailPage = noticeService.getNoticeDetail(postId);
         model.addAttribute("detailPage", detailPage);
         return "noticeDetailPage";
     }
 
-    // °øÁö»çÇ× »èÁ¦
+    // ê³µì§€ì‚¬í•­ ì‚­ì œ
     @PostMapping("/delete/{postId}")
     public String deleteNotice(@PathVariable("postId") Integer postId, HttpSession session) {
-    	// °ü¸®ÀÚ È®ÀÎ
+    	// ê´€ë¦¬ì í™•ì¸
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        // °ü¸®ÀÚ ¾Æ´Ï¸é ¿¡·¯
+        // ê´€ë¦¬ì ì•„ë‹ˆë©´ ì—ëŸ¬
         if (!permissionService.hasPermission("NOTICE", Action.DELETE, isAdmin)) {
             return "redirect:/error";
         }
@@ -98,29 +98,29 @@ public class NoticeController {
         return "redirect:/notice";
     }
 
-    // °øÁö»çÇ× ¼öÁ¤ ÆäÀÌÁö ÀÌµ¿
+    // ê³µì§€ì‚¬í•­ ìˆ˜ì • í˜ì´ì§€ ì´ë™
     @GetMapping("/edit/{postId}")
     public String editNoticePage(@PathVariable("postId") Integer postId, Model model, HttpSession session) {
-    	// °ü¸®ÀÚ È®ÀÎ 
+    	// ê´€ë¦¬ì í™•ì¸ 
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        // °ü¸®ÀÚ ¾Æ´Ï¸é ¿¡·¯
+        // ê´€ë¦¬ì ì•„ë‹ˆë©´ ì—ëŸ¬
         if (!permissionService.hasPermission("NOTICE", Action.UPDATE, isAdmin)) {
             return "redirect:/error";
         }
-        // ¼öÁ¤ ÆäÀÌÁö µ¥ÀÌÅÍ
+        // ìˆ˜ì • í˜ì´ì§€ ë°ì´í„°
         NoticeDetailResponse noticeData = noticeService.getNoticeDetail(postId);
         model.addAttribute("notice", noticeData);
         return "editForm";
     }
 
-    // °øÁö»çÇ× ¼öÁ¤
+    // ê³µì§€ì‚¬í•­ ìˆ˜ì •
     @PostMapping("/update/{postId}")
     public String updateNotice(@PathVariable("postId") Integer postId, 
                                @ModelAttribute NoticeUpdateRequest dto, 
                                HttpSession session) {
-    	// °ü¸®ÀÚ È®ÀÎ
+    	// ê´€ë¦¬ì í™•ì¸
         Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-        // °ü¸®ÀÚ ¾Æ´Ï¸é ¿¡·¯
+        // ê´€ë¦¬ì ì•„ë‹ˆë©´ ì—ëŸ¬
         if (!permissionService.hasPermission("NOTICE", Action.UPDATE, isAdmin)) {
             return "redirect:/error";
         }

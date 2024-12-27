@@ -8,27 +8,27 @@ import com.ProgrammerCommunity.model.entity.Action;
 public class PermissionService {
 	
 	public boolean hasPermission(String boardType, Action action, Boolean isAdmin) {
-		// °ü¸®ÀÚ ¿©ºÎ°¡ nullÀÎ °æ¿ì (·Î±×ÀÎÇÏÁö ¾ÊÀº °æ¿ì) ±ÇÇÑ ¾øÀ½
+		// ê´€ë¦¬ì ì—¬ë¶€ê°€ nullì¸ ê²½ìš° (ë¡œê·¸ì¸í•˜ì§€ ì•Šì€ ê²½ìš°) ê¶Œí•œ ì—†ìŒ
 		if (isAdmin == null) {
 			return false;
 		}
 
-		// °ü¸®ÀÚ´Â ¸ğµç °Ô½ÃÆÇ°ú ¸ğµç ÀÛ¾÷¿¡ ´ëÇØ ±ÇÇÑÀ» °¡Áü
+		// ê´€ë¦¬ìëŠ” ëª¨ë“  ê²Œì‹œíŒê³¼ ëª¨ë“  ì‘ì—…ì— ëŒ€í•´ ê¶Œí•œì„ ê°€ì§
 		if (isAdmin) {
 			return true;
 		}
 
-		// ÀÏ¹İ »ç¿ëÀÚÀÇ ±ÇÇÑ Ã¼Å© ·ÎÁ÷
+		// ì¼ë°˜ ì‚¬ìš©ìì˜ ê¶Œí•œ ì²´í¬ ë¡œì§
 		switch (boardType) {
 		case "NOTICE":
-			// °øÁö»çÇ×Àº ÀÏ¹İ »ç¿ëÀÚ¿¡°Ô ÀĞ±â ±ÇÇÑ¸¸ ºÎ¿©
+			// ê³µì§€ì‚¬í•­ì€ ì¼ë°˜ ì‚¬ìš©ìì—ê²Œ ì½ê¸° ê¶Œí•œë§Œ ë¶€ì—¬
 			return action == Action.READ;
 		case "QNA":
 		case "COMMUNITY":
-			// QNA¿Í COMMUNITY °Ô½ÃÆÇÀº ÀÏ¹İ »ç¿ëÀÚ¿¡°Ô ¸ğµç ±ÇÇÑ ºÎ¿©
+			// QNAì™€ COMMUNITY ê²Œì‹œíŒì€ ì¼ë°˜ ì‚¬ìš©ìì—ê²Œ ëª¨ë“  ê¶Œí•œ ë¶€ì—¬
 			return true;
 		default:
-			// Á¤ÀÇµÇÁö ¾ÊÀº °Ô½ÃÆÇ À¯Çü¿¡ ´ëÇØ¼­´Â ±ÇÇÑ ¾øÀ½
+			// ì •ì˜ë˜ì§€ ì•Šì€ ê²Œì‹œíŒ ìœ í˜•ì— ëŒ€í•´ì„œëŠ” ê¶Œí•œ ì—†ìŒ
 			return false;
 		}
 		

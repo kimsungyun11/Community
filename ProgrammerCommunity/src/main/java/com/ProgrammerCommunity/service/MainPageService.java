@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.mapper.MainPageMapper;
 import com.ProgrammerCommunity.model.dto.response.MainPageSearchResponse;
-import com.ProgrammerCommunity.model.entity.Users;
+import com.ProgrammerCommunity.model.dto.response.RecentBoardResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,18 +18,27 @@ public class MainPageService {
 
 	private final MainPageMapper mainPageMapper;
 
-	// °Ë»ö±â´É
+	// ê²€ìƒ‰ê¸°ëŠ¥
 	public List<MainPageSearchResponse> searchMain(String search, int pageSize, int pageNum) {
 		
-		// °Ë»ö¾î°¡ ¾øÀ¸¸é ¿¡·¯
+		// ê²€ìƒ‰ì–´ê°€ ì—†ìœ¼ë©´ ì—ëŸ¬
         if ( search == null ) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "°Ë»ö¾î°¡ ¾øÀ½");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ê²€ìƒ‰ì–´ê°€ ì—†ìŒ");
         }
         
-        // offset ¼³Á¤
+        // offset ì„¤ì •
         int offset = (pageNum - 1) * pageSize;
         
         return mainPageMapper.mainPageSearch(search, pageSize, offset);
     }
+
+	// ìµœì‹  ê¸€ 5ê°œ
+	public RecentBoardResponse index() {
+		
+		// ìµœì‹  ê¸€ 5ê°œ ë„£ê¸°
+		RecentBoardResponse recentBoard = mainPageMapper.recent();
+		
+		return recentBoard;
+	}
 	
 }

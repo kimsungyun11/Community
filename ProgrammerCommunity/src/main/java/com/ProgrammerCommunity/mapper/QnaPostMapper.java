@@ -21,44 +21,44 @@ import jakarta.validation.Valid;
 @Mapper
 public interface QnaPostMapper {
 	
-	// ±Û ÀÛ¼º ±â´É
+	// ê¸€ ì‘ì„± ê¸°ëŠ¥
 	@Insert("INSERT INTO Posts (user_id, board_type, title, content, tags, created_at) " +
 	        "VALUES (#{dto.userId}, #{dto.boardType}, #{dto.title}, #{dto.content}, #{dto.tags}, #{dto.createdAt})")
 	void createQna(@Param("dto") @Valid QnaCreateRequest dto);
 
-	// ±Û ¸ñ·Ï º¸´Â ±â´É
+	// ê¸€ ëª©ë¡ ë³´ëŠ” ê¸°ëŠ¥
 	@Select("SELECT post_id, title, content, tags, updated_at FROM posts WHERE board_type = #{boardType} ORDER BY updated_at DESC "
 			+ "LIMIT #{pageSize} OFFSET #{offset}")
 	List<QnaListResponse> qnaPageList(@Param("boardType") String boardType,@Param("offset") int offset,@Param("pageSize") int pageSize);
 
-	// ±Û °¹¼ö
+	// ê¸€ ê°¯ìˆ˜
 	@Select("SELECT count(*) FROM Posts WHERE board_type = #{boardType}")
 	int totalPage(String boardType);
 
-	// »ó¼¼ ÆäÀÌÁö 
+	// ìƒì„¸ í˜ì´ì§€ 
 	@Select("SELECT a.post_id, a.title, a.content, a.updated_at, b.username, a.user_id " +
             "FROM Posts a " +
             "JOIN Users b ON a.user_id = b.user_id " +
             "WHERE a.post_id = #{postId}")
     QnaDetailResponse findByPostId(@Param("postId") Integer postId);
 
-	// ÅÂ±×·Î ±Û °Ë»ö
+	// íƒœê·¸ë¡œ ê¸€ ê²€ìƒ‰
 	@Select("SELECT post_id, title, content, tags, updated_at FROM Posts WHERE tags LIKE CONCAT('%', #{tags}, '%')")
 	List<QnaTagsSearchResponse> searchByTag(@Param("tags") String tags, @Param("offset") int offset, @Param("size") int size);
 
     @Select("SELECT COUNT(*) FROM Posts WHERE tags LIKE CONCAT('%', #{tags}, '%')")
     int countByTag(@Param("tags") String tags);
 
-    // qna±Û »èÁ¦
+    // qnaê¸€ ì‚­ì œ
     @Delete("DELETE FROM posts WHERE user_id = #{user} AND post_id = #{postId}")
     void deleteQna(@Param("user") Integer user, @Param("postId") Integer postId);
     
-    // ±Û ¼öÁ¤ ±â´É
+    // ê¸€ ìˆ˜ì • ê¸°ëŠ¥
     @Update("UPDATE Posts SET title = #{title}, content = #{content}, tags = #{tags}, updated_at = CURRENT_TIMESTAMP " +
             "WHERE post_id = #{postId}")
     void updateQna(@Param("postId") Integer postId, @Param("title") String title, @Param("content") String content, @Param("tags") String tags);
     
-    // ¼öÁ¤ ÇØ¾ß ÇÒ ±Û Á¤º¸
+    // ìˆ˜ì • í•´ì•¼ í•  ê¸€ ì •ë³´
     @Select("SELECT post_id, user_id, title, content, tags, updated_at "
             + "FROM Posts WHERE post_id = #{postId}")
     QnaEditResponse findByPostIdForEdit(@Param("postId") Integer postId);

@@ -28,22 +28,22 @@ public class CommunityController {
 	
 	private final CommunityService service;
 	
-	// community ÆäÀÌÁö ÀÌµ¿
+	// community í˜ì´ì§€ ì´ë™
 	@GetMapping
 	public String communityPage( Model model,
 								@RequestParam( name = "pageNum", defaultValue = "1" ) int pageNum,
 								@RequestParam( name = "pageSize", defaultValue = "10" ) int pageSize,
 								@RequestParam( name = "boardType", defaultValue = "COMMUNITY" ) String boardType ) {
 		
-		// community ¸®½ºÆ®
+		// community ë¦¬ìŠ¤íŠ¸
 		List<CommunityResponse> list = service.communityPage( pageNum, pageSize, boardType );
 		
 		// total
 		int totalPages = service.tatalPage( pageSize, boardType );
 		
-		// community ¸®½ºÆ®
+		// community ë¦¬ìŠ¤íŠ¸
 		model.addAttribute("posts", list);
-		// totalPage¼ö
+		// totalPageìˆ˜
 		model.addAttribute("totalPages", totalPages);
 		// boardType
 		model.addAttribute("boardType", boardType);
@@ -55,7 +55,7 @@ public class CommunityController {
 		return "communityBoard";
 	}
 	
-	// ±Û ÀÛ¼º ÆäÀÌÁö ÀÌµ¿
+	// ê¸€ ì‘ì„± í˜ì´ì§€ ì´ë™
 	@GetMapping("write")
 	public String communityWrite( HttpSession session, Model model ) {
 		
@@ -70,21 +70,21 @@ public class CommunityController {
 		return "communityWrite";
 	}
 	
-	// ±Û ÀÛ¼º
+	// ê¸€ ì‘ì„±
 	@PostMapping("create")
 	public String communityCreate( HttpSession session, @ModelAttribute("dto") CommunityCreateResponse dto, Model model ) {
 		
-		// À¯Àú È®ÀÎ
+		// ìœ ì € í™•ì¸
 		Integer user = (Integer) session.getAttribute("userId");
 		
-		// ±Û ÀÛ¼º
+		// ê¸€ ì‘ì„±
 		service.createCommunityPost( user, dto );
 		
-		// ¿Ï·á½Ã communityÆäÀÌÁö ÀÌµ¿
+		// ì™„ë£Œì‹œ communityí˜ì´ì§€ ì´ë™
 		return "redirect:/community";
 	}
 	
-	// ±Û »ó¼¼ ÆäÀÌÁö
+	// ê¸€ ìƒì„¸ í˜ì´ì§€
 	@GetMapping("detail/{postId}")
 	public String communityDetail( @PathVariable("postId") Integer postId, Model model ) {
 		
@@ -95,38 +95,38 @@ public class CommunityController {
 		return "detailPage";
 	}
 	
-	// ±Û »è¼¼ ±â´É
+	// ê¸€ ì‚­ì„¸ ê¸°ëŠ¥
 	@PostMapping("/delete/{postId}")
 	public String communityDelete( @PathVariable("postId") Integer postId, HttpSession session ) {
 		
-		// »èÁ¦ ±â´É
+		// ì‚­ì œ ê¸°ëŠ¥
 		service.communityDelete( postId, session );
 		
-		// ·Î±×ÀÎ ¾ÈÇÏ¸é ·Î±×ÀÎ ÆäÀÌÁö
+		// ë¡œê·¸ì¸ ì•ˆí•˜ë©´ ë¡œê·¸ì¸ í˜ì´ì§€
 		if ( session == null ) {
 			return "redirect:/login/loginpage";
 		}
 		
-		// »èÁ¦ ¿Ï·á ÈÄ community ÆäÀÌÁö·Î ¸®´ÙÀÌ·ºÆ®
+		// ì‚­ì œ ì™„ë£Œ í›„ community í˜ì´ì§€ë¡œ ë¦¬ë‹¤ì´ë ‰íŠ¸
 		return "redirect:/community";
 	}
 	
-	// ±Û ¼öÁ¤ ÆäÀÌÁö ÀÌµ¿
+	// ê¸€ ìˆ˜ì • í˜ì´ì§€ ì´ë™
 	@GetMapping("/edit/{postId}")
 	public String edit( @PathVariable("postId") Integer postId, Model model, HttpSession session ) {
-		// ·Î±×ÀÎ ¾ÈÇÏ¸é ·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
+		// ë¡œê·¸ì¸ ì•ˆí•˜ë©´ ë¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™
 		if ( session == null ) {
 			return "redirect:/login/loginpage";
 		}
-		// ¼öÁ¤ ÇØ¾ß ÇÒ ±Û Á¤º¸
+		// ìˆ˜ì • í•´ì•¼ í•  ê¸€ ì •ë³´
 		EditResponse editData = service.edit( postId, session );
 		
 		model.addAttribute("post", editData);
-		// ¼öÁ¤ ÆäÀÌÁö ÀÌµ¿
+		// ìˆ˜ì • í˜ì´ì§€ ì´ë™
 		return "editForm";
 	}
 	
-	// ±Û ¼öÁ¤ ±â´É
+	// ê¸€ ìˆ˜ì • ê¸°ëŠ¥
 	@PostMapping("/update/{postId}")
 	public String update( @PathVariable("postId") Integer postId, HttpSession session, CommunityUpdateRequest dto ) {
 		

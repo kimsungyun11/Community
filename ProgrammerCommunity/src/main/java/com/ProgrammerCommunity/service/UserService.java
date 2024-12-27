@@ -21,35 +21,35 @@ public class UserService {
 
 	private final UserMapper userMapper;
 	
-	// ´Ğ³×ÀÓ, ÀÌ¸ŞÀÏ Áßº¹ È®ÀÎ
+	// ë‹‰ë„¤ì„, ì´ë©”ì¼ ì¤‘ë³µ í™•ì¸
 	private void check(SignupRequest dto) {
         if (userMapper.existsByUsername(dto.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Áßº¹µÈ ´Ğ³×ÀÓÀÔ´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ì¤‘ë³µëœ ë‹‰ë„¤ì„ì…ë‹ˆë‹¤.");
         }
         if (userMapper.existsByEmail(dto.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Áßº¹µÈ ÀÌ¸ŞÀÏÀÔ´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ì¤‘ë³µëœ ì´ë©”ì¼ì…ë‹ˆë‹¤.");
         }
     }
 
-	// È¸¿ø°¡ÀÔ ±â´É
+	// íšŒì›ê°€ì… ê¸°ëŠ¥
 	public void signup(@Valid SignupRequest dto) {
         check(dto);
         
         String hashedPassword = PasswordHasher.hashPassword(dto.getPassword());
         LocalDateTime createdAt = LocalDateTime.now();
-        Boolean isAdmin = false; // ±âº»°ªÀ¸·Î false ¼³Á¤
+        Boolean isAdmin = false; // ê¸°ë³¸ê°’ìœ¼ë¡œ false ì„¤ì •
         
         userMapper.insertUser(dto.getUsername(), dto.getEmail(), hashedPassword, createdAt, isAdmin);
     }
 
-	// ·Î±×ÀÎ ±â´É
+	// ë¡œê·¸ì¸ ê¸°ëŠ¥
 	public Users login(LoginRequest dto) {
         Users user = userMapper.findByEmail(dto.getEmail());
         if (user == null || !user.getPassword().equals(PasswordHasher.hashPassword(dto.getPassword()))) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ÀÌ¸ŞÀÏ ¶Ç´Â ºñ¹Ğ¹øÈ£°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ì´ë©”ì¼ ë˜ëŠ” ë¹„ë°€ë²ˆí˜¸ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
         }
         
-        // isAdminÀÌ nullÀÎ °æ¿ì false·Î ¼³Á¤
+        // isAdminì´ nullì¸ ê²½ìš° falseë¡œ ì„¤ì •
         if (user.getIsAdmin() == null) {
             user.setIsAdmin(false);
         }

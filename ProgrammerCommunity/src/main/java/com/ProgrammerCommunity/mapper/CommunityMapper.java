@@ -18,36 +18,36 @@ import com.ProgrammerCommunity.model.dto.response.EditResponse;
 @Mapper
 public interface CommunityMapper {
 
-	// ÆäÀÌÁö list
+	// í˜ì´ì§€ list
 	@Select("SELECT post_id, title, content, tags, updated_at FROM posts WHERE board_type = #{boardType} ORDER BY updated_at DESC "
 			+ "LIMIT #{pageSize} OFFSET #{offSet}")
 	List<CommunityResponse> ListByBoardType( @Param("boardType") String boardType, @Param("offSet") int offSet, @Param("pageSize") int pageSize);
 
-	// °Ô½Ã¹° ¼ö
+	// ê²Œì‹œë¬¼ ìˆ˜
 	@Select("SELECT COUNT(*) FROM posts WHERE board_type = #{boardType}")
 	int total(String boardType);
 
-	// ±Û »ı¼º
+	// ê¸€ ìƒì„±
 	@Insert("INSERT INTO POSTS (user_id, board_type, title, content, created_at) "
 			+ "VALUES (#{dto.userId}, #{dto.boardType}, #{dto.title}, #{dto.content}, #{dto.createdAt})")
 	void createCommunity( @Param("dto") CommunityCreateResponse dto);
 
-	// ±Û »ó¼¼ ÆäÀÌÁö
+	// ê¸€ ìƒì„¸ í˜ì´ì§€
 	@Select("SELECT a.post_id, a.title, a.content, a.updated_at, b.username, a.user_id "
 			+ "FROM Posts a "
 			+ "JOIN Users b ON a.user_id = b.user_id "
 			+ "WHERE a.post_id = #{postId}")
 	CommunityDetailResponse communityDetailByPostid( @Param("postId") Integer postId);
 
-	// »èÁ¦ ±â´É
+	// ì‚­ì œ ê¸°ëŠ¥
 	@Delete("DELETE FROM posts WHERE user_id = #{user} AND post_id = #{postId}")
 	void deleteBypostId( @Param("postId") Integer postId, @Param("user") Integer user);
 
-	// ¼öÁ¤ ÇÒ ±Û Á¤º¸
+	// ìˆ˜ì • í•  ê¸€ ì •ë³´
 	@Select("SELECT post_id, user_id, title, content, updated_at FROM Posts WHERE post_id = #{postId}")
 	EditResponse updateCommunityByPostId( @Param("postId") Integer postId);
 
-	// ±Û ¼öÁ¤ ±â´É
+	// ê¸€ ìˆ˜ì • ê¸°ëŠ¥
 	@Update("UPDATE Posts SET title = #{dto.title}, content = #{dto.content}, updated_at = CURRENT_TIMESTAMP " +
             "WHERE post_id = #{postId}")
 	void communityUpdate( @Param("postId") Integer postId, @Param("dto") CommunityUpdateRequest dto);

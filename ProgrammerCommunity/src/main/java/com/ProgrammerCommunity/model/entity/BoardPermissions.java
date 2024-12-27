@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardPermissions {
-	private Integer permissionId;  // ±ÇÇÑÀÇ °íÀ¯ ½Äº°ÀÚ
-    private BoardType boardType;   // °Ô½ÃÆÇ À¯Çü (QNA, COMMUNITY, NOTICE)
-    private Action action;         // ¼öÇàÇÒ ¼ö ÀÖ´Â µ¿ÀÛ (CREATE, READ, UPDATE, DELETE)
-    private Boolean isAdminOnly;   // °ü¸®ÀÚ Àü¿ë ±ÇÇÑ ¿©ºÎ
+	private Integer permissionId;  // ê¶Œí•œì˜ ê³ ìœ  ì‹ë³„ì
+    private BoardType boardType;   // ê²Œì‹œíŒ ìœ í˜• (QNA, COMMUNITY, NOTICE)
+    private Action action;         // ìˆ˜í–‰í•  ìˆ˜ ìˆëŠ” ë™ì‘ (CREATE, READ, UPDATE, DELETE)
+    private Boolean isAdminOnly;   // ê´€ë¦¬ì ì „ìš© ê¶Œí•œ ì—¬ë¶€
 }

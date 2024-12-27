@@ -2,17 +2,14 @@ package com.ProgrammerCommunity.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.ProgrammerCommunity.model.dto.response.MainPageSearchResponse;
+import com.ProgrammerCommunity.model.dto.response.RecentBoardResponse;
 import com.ProgrammerCommunity.service.MainPageService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,8 +23,14 @@ public class MainPageController {
 	private final MainPageService mainPageService;
 	
 	// 메인페이지 이동 기능
-	@GetMapping("")
-	public String index() {
+	// 게시판 별로 최신순 5개씩 나오는 기능
+	@GetMapping
+	public String index( Model model ) {
+		
+		// 게시판 최신순 5개
+		RecentBoardResponse board = mainPageService.index();
+		
+		
 		return "index";
 	}
 	
@@ -46,5 +49,5 @@ public class MainPageController {
         return "searchResults";
     }
 	
-	
+
 }

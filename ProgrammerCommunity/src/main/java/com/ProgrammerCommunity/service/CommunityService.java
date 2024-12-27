@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.ProgrammerCommunity.mapper.CommentMapper;
 import com.ProgrammerCommunity.mapper.CommunityMapper;
 import com.ProgrammerCommunity.model.dto.request.CommunityUpdateRequest;
 import com.ProgrammerCommunity.model.dto.response.CommentResponse;
@@ -16,7 +15,6 @@ import com.ProgrammerCommunity.model.dto.response.CommunityDetailResponse;
 import com.ProgrammerCommunity.model.dto.response.CommunityResponse;
 import com.ProgrammerCommunity.model.dto.response.EditResponse;
 import com.ProgrammerCommunity.model.entity.BoardType;
-import com.ProgrammerCommunity.model.entity.Posts;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +29,9 @@ public class CommunityService {
 	// communityList 
 	public List<CommunityResponse> communityPage(int pageNum, int pageSize, String boardType) {
 		
-		// boardType È®ÀÎ
+		// boardType í™•ì¸
 		if ( !boardType.equals("COMMUNITY") ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "community¾Æ´Ô" );
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "communityì•„ë‹˜" );
 		}
 		
 		// offset
@@ -45,23 +43,23 @@ public class CommunityService {
 		return community;
 	}
 
-	// ÆäÀÌÁö ¼ö
+	// í˜ì´ì§€ ìˆ˜
 	public int tatalPage(int pageNum, String boardType) {
 		
-		// °Ô½Ã¹° ¼ö
+		// ê²Œì‹œë¬¼ ìˆ˜
 		int total = mapper.total( boardType );
 		
-		// ÆäÀÌÁö ¼ö
+		// í˜ì´ì§€ ìˆ˜
 		int totalPage = ( int ) Math.ceil( (double) total / pageNum );
 		
 		return totalPage;
 	}
 
-	// ±Û »ı¼º
+	// ê¸€ ìƒì„±
 	public void createCommunityPost(Integer user, CommunityCreateResponse dto) {
 		
 		if ( user == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "·Î±×ÀÎ ¾ÈÇß½À´Ï´Ù");
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "ë¡œê·¸ì¸ ì•ˆí–ˆìŠµë‹ˆë‹¤");
 		}
 		
 		dto.setBoardType(BoardType.COMMUNITY);
@@ -71,50 +69,50 @@ public class CommunityService {
 		
 	}
 
-	// ±Û »ó¼¼ ÆäÀÌÁö 
+	// ê¸€ ìƒì„¸ í˜ì´ì§€ 
 	public CommunityDetailResponse communityDetail(Integer postId) {
 		
-		// postid È®ÀÎ
+		// postid í™•ì¸
 		if ( postId == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "±Û Á¤º¸°¡ ¾ø½À´Ï´Ù");
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "ê¸€ ì •ë³´ê°€ ì—†ìŠµë‹ˆë‹¤");
 		}
 		
 		CommunityDetailResponse communityDetail =  mapper.communityDetailByPostid( postId );
-		// ´ñ±Û Á¤º¸ Ãß°¡
+		// ëŒ“ê¸€ ì •ë³´ ì¶”ê°€
         List<CommentResponse> comments = commentService.getCommentsByPostId(postId);
         communityDetail.setComments(comments);
 		
 		return communityDetail;
 	}
 	
-	// ±Û »èÁ¦ ±â´É
+	// ê¸€ ì‚­ì œ ê¸°ëŠ¥
 	public void communityDelete(Integer postId, HttpSession session) {
-		// ·Î±×ÀÎ À¯Àú Á¤º¸
+		// ë¡œê·¸ì¸ ìœ ì € ì •ë³´
 		Integer user = (Integer) session.getAttribute("userId");
-		// »èÁ¦ ±â´É
+		// ì‚­ì œ ê¸°ëŠ¥
 		mapper.deleteBypostId( postId, user );
 
-		// ·Î±×ÀÎ ¾ÈÇß°Å³ª ÀÛ¼ºÀÚ°¡ ¾Æ´Ï¸é ¿¡·¯
+		// ë¡œê·¸ì¸ ì•ˆí–ˆê±°ë‚˜ ì‘ì„±ìê°€ ì•„ë‹ˆë©´ ì—ëŸ¬
 		if ( user == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "·Î±×ÀÎ ¾ÈÇÔ");
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "ë¡œê·¸ì¸ ì•ˆí•¨");
 		}
 	}
 
-	// ±Û ¼öÁ¤ ÆäÀÌÁö ÀÌµ¿
+	// ê¸€ ìˆ˜ì • í˜ì´ì§€ ì´ë™
 	public EditResponse edit(Integer postId, HttpSession session) {
-		// ·Î±×ÀÎ À¯Àú Á¤º¸
+		// ë¡œê·¸ì¸ ìœ ì € ì •ë³´
 		Integer user = (Integer) session.getAttribute("userId");
-		// ·Î±×ÀÎ È®ÀÎ
+		// ë¡œê·¸ì¸ í™•ì¸
 		if ( user == null ) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "·Î±×ÀÎ ¾ÈÇß½À´Ï´Ù");
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST , "ë¡œê·¸ì¸ ì•ˆí–ˆìŠµë‹ˆë‹¤");
 		}
-		// ¼öÁ¤ ÇÒ ±Û Á¤º¸
+		// ìˆ˜ì • í•  ê¸€ ì •ë³´
 		EditResponse update = mapper.updateCommunityByPostId( postId );
 		
 		return update;
 	}
 
-	// ±Û ¼öÁ¤ ±â´É
+	// ê¸€ ìˆ˜ì • ê¸°ëŠ¥
 	public void update(Integer postId, HttpSession session, CommunityUpdateRequest dto) {
 		
 		mapper.communityUpdate( postId, dto );

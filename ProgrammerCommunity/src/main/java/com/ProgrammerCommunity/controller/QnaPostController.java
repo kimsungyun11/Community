@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ProgrammerCommunity.model.dto.request.CommentCreateRequest;
 import com.ProgrammerCommunity.model.dto.request.QnaCreateRequest;
 import com.ProgrammerCommunity.model.dto.request.QnaUpdateRequest;
 import com.ProgrammerCommunity.model.dto.response.QnaDetailResponse;
@@ -33,7 +31,7 @@ public class QnaPostController {
 	
 	private final QnaPostService service;
 	
-	// °Ô½ÃÆÇ ÆäÀÌÁö ÀÌµ¿ ±â´É
+	// ê²Œì‹œíŒ í˜ì´ì§€ ì´ë™ ê¸°ëŠ¥
 	@GetMapping("/qnapage")
 	public String qnaPage( Model model, 
 						@RequestParam( value = "pageSize", defaultValue = "10" ) int pageSize,
@@ -53,7 +51,7 @@ public class QnaPostController {
 		return "qnaBoard";
 	}
 	
-	// ±Û ÀÛ¼º ÆäÀÌÁö ÀÌµ¿ ±â´É
+	// ê¸€ ì‘ì„± í˜ì´ì§€ ì´ë™ ê¸°ëŠ¥
 	@GetMapping("/write")
 	public String write(Model model, HttpSession session) {
 	    Integer userId = (Integer) session.getAttribute("userId");
@@ -65,7 +63,7 @@ public class QnaPostController {
 	    return "qnaWrite";
 	}
 	
-	// ±Û ÀÛ¼º ±â´É
+	// ê¸€ ì‘ì„± ê¸°ëŠ¥
 	@PostMapping("/create")
     public String create(@ModelAttribute("dto") @Valid QnaCreateRequest dto,
                          BindingResult bindingResult,
@@ -86,7 +84,7 @@ public class QnaPostController {
         return "redirect:/qna/qnapage";
     }
 	
-	// ±Û »ó¼¼ ÆäÀÌÁö ±â´É
+	// ê¸€ ìƒì„¸ í˜ì´ì§€ ê¸°ëŠ¥
 	@GetMapping("/detail/{postId}")
 	public String detail(@PathVariable("postId") Integer postId, Model model) {
 	    QnaDetailResponse detailPage = service.getQnaDetail(postId);
@@ -98,7 +96,7 @@ public class QnaPostController {
 	    return "detailPage";
 	}
 	
-	// ÅÂ±× Å¬¸¯ ½Ã °Ë»ö
+	// íƒœê·¸ í´ë¦­ ì‹œ ê²€ìƒ‰
 	@GetMapping("/tag/{tags}")
 	public String tagSearch(@PathVariable("tags") String tags,
 	                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
@@ -118,52 +116,52 @@ public class QnaPostController {
 	    return "qnaBoard";
 	}
 	
-	// ±Û »èÁ¦ ±â´É
+	// ê¸€ ì‚­ì œ ê¸°ëŠ¥
 	@PostMapping("/delete/{postId}")
 	public String delete( @PathVariable("postId") Integer postId, HttpSession session ) {
 		
 		// userId 
 		Integer user = (Integer) session.getAttribute("userId");
 		
-		// ±Û »èÁ¦
+		// ê¸€ ì‚­ì œ
 		service.delete( user, postId );
 		
 		return "redirect:/qna/qnapage";
 	}
 	
-	// ¼öÁ¤ ÆäÀÌÁö·Î ÀÌµ¿
+	// ìˆ˜ì • í˜ì´ì§€ë¡œ ì´ë™
 	@GetMapping("/edit/{postId}")
     public String showEditForm(@PathVariable("postId") Integer postId, Model model, HttpSession session) {
 		
-		// ÇöÀç ·Î±×ÀÎ userId È®ÀÎ
+		// í˜„ì¬ ë¡œê·¸ì¸ userId í™•ì¸
         Integer userId = (Integer) session.getAttribute("userId");
         
-        // ·Î±×ÀÎ ¾ÈÇÏ¸é ·Î±×ÀÎ ÆäÀÌÁö ÀÌµ¿
+        // ë¡œê·¸ì¸ ì•ˆí•˜ë©´ ë¡œê·¸ì¸ í˜ì´ì§€ ì´ë™
         if (userId == null) {
             return "redirect:/login";
         }
         
-        // ¼öÁ¤ ÇØ¾ß ÇÒ ±Û Á¤º¸
+        // ìˆ˜ì • í•´ì•¼ í•  ê¸€ ì •ë³´
         QnaEditResponse qna = service.getQnaForEdit(postId, userId);
         model.addAttribute("qna", qna);
         return "qnaEditForm";
     }
 
-    // ±Û ¼öÁ¤ Ã³¸®
+    // ê¸€ ìˆ˜ì • ì²˜ë¦¬
     @PostMapping("/update/{postId}")
     public String update(@PathVariable("postId") Integer postId, 
     					 @Valid @ModelAttribute QnaUpdateRequest updateRequest,
                          HttpSession session) {
     	
-    	// À¯Àú Á¤º¸
+    	// ìœ ì € ì •ë³´
         Integer userId = (Integer) session.getAttribute("userId");
         
-        // ·Î±×ÀÎ ¾È ÇßÀ¸¸é ·Î±×ÀÎ ÆäÀÌÁö
+        // ë¡œê·¸ì¸ ì•ˆ í–ˆìœ¼ë©´ ë¡œê·¸ì¸ í˜ì´ì§€
         if (userId == null) {
             return "redirect:/login";
         }
         
-        // ±Û ¼öÁ¤
+        // ê¸€ ìˆ˜ì •
         service.updateQna(postId, userId, updateRequest);
         return "redirect:/qna/detail/" + postId;
     }

@@ -26,21 +26,21 @@ public class UserController {
 
 	private final UserService userService;
 
-	// ·Î±×ÀÎ ÆäÀÌÁö ÀÌµ¿
+	// ë¡œê·¸ì¸ í˜ì´ì§€ ì´ë™
 	@GetMapping("/loginpage")
 	public String loginpage(Model model) {
         model.addAttribute("LoginRequest", new LoginRequest());
         return "login";
     }
 
-	// È¸¿ø°¡ÀÔ ÆäÀÌÁö ÀÌµ¿
+	// íšŒì›ê°€ì… í˜ì´ì§€ ì´ë™
 	@GetMapping("/signuppage")
 	public String signupPage() {
 		return "signup";
 	}
 
 	
-	// È¸¿ø°¡ÀÔ ±â´É
+	// íšŒì›ê°€ì… ê¸°ëŠ¥
 	@PostMapping("/signup")
     public String signup(@ModelAttribute("SignupRequest") @Valid SignupRequest dto, Model model) {
         try {
@@ -52,23 +52,23 @@ public class UserController {
         }
     }
 
-	// ·Î±×ÀÎ ±â´É
+	// ë¡œê·¸ì¸ ê¸°ëŠ¥
 	@PostMapping("/login")
 	public String login(@ModelAttribute LoginRequest dto, HttpSession session) {
 	        Users user = userService.login(dto);
 	        if (user != null && user.getUserId() != null) {
 	            session.setAttribute("userId", user.getUserId());
-	            session.setAttribute("isAdmin", user.getIsAdmin()); // isAdmin Ãß°¡
+	            session.setAttribute("isAdmin", user.getIsAdmin()); // isAdmin ì¶”ê°€
 	            return "redirect:/main";
 	        } else {
 	            return "redirect:/login?error";
 	        }
 	}
 	
-	// ·Î±×¾Æ¿ô ±â´É
+	// ë¡œê·¸ì•„ì›ƒ ê¸°ëŠ¥
 	@GetMapping("/logout")
     public String logout(HttpSession session) {
-		// ¼¼¼Ç ¹«È¿È­
+		// ì„¸ì…˜ ë¬´íš¨í™”
         session.invalidate();
         
         return "redirect:/login/loginpage";
