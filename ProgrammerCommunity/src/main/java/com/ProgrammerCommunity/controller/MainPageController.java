@@ -28,7 +28,7 @@ public class MainPageController {
 	public String index( Model model ) {
 		
 		// 게시판 최신순 5개
-		RecentBoardResponse board = mainPageService.index();
+		List<RecentBoardResponse> board = mainPageService.index();
 		
 		model.addAttribute("recentBoard", board);
 		return "index";

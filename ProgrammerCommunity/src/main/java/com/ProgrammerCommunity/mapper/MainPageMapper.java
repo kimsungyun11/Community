@@ -23,12 +23,12 @@ public interface MainPageMapper {
     											@Param("offset") int offset);
 
 	// 게시판 글 5개 최신순
-	@Select("SELECT post_id, user_id, title, boardType, created_at, updated_at " +
+	@Select("SELECT post_id, user_id, title, board_type, created_at, updated_at " +
 	        "FROM posts " +
-	        "WHERE boardType = #{boardType} " +
+	        "WHERE board_type = #{boardType} " +
 	        "ORDER BY created_at DESC " +
 	        "LIMIT 5")
-	RecentBoardResponse recent();
+	List<RecentBoardResponse> recent();
 
 
 }

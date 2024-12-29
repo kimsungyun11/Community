@@ -33,10 +33,10 @@ public class MainPageService {
     }
 
 	// 최신 글 5개
-	public RecentBoardResponse index() {
+	public List<RecentBoardResponse> index() {
 		
 		// 최신 글 5개 넣기
-		RecentBoardResponse recentBoard = mainPageMapper.recent();
+		List<RecentBoardResponse> recentBoard = mainPageMapper.recent();
 		
 		return recentBoard;
 	}
