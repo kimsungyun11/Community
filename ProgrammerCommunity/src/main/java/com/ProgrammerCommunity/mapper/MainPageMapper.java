@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 
 import com.ProgrammerCommunity.model.dto.response.MainPageSearchResponse;
 import com.ProgrammerCommunity.model.dto.response.RecentBoardResponse;
+import com.ProgrammerCommunity.model.entity.BoardType;
 
 @Mapper
 public interface MainPageMapper {
@@ -28,7 +29,7 @@ public interface MainPageMapper {
 	        "WHERE board_type = #{boardType} " +
 	        "ORDER BY created_at DESC " +
 	        "LIMIT 5")
-	List<RecentBoardResponse> recent();
+	List<RecentBoardResponse> getRecentPosts(@Param("boardType") BoardType boardType);
 
 
 }

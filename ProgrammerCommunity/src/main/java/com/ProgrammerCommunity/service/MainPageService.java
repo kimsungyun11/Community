@@ -1,5 +1,6 @@
 package com.ProgrammerCommunity.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.ProgrammerCommunity.mapper.MainPageMapper;
 import com.ProgrammerCommunity.model.dto.response.MainPageSearchResponse;
 import com.ProgrammerCommunity.model.dto.response.RecentBoardResponse;
+import com.ProgrammerCommunity.model.entity.BoardType;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,12 +35,19 @@ public class MainPageService {
     }
 
 	// 최신 글 5개
-	public List<RecentBoardResponse> index() {
+	public List<RecentBoardResponse> getRecentPosts() {
 		
-		// 최신 글 5개 넣기
-		List<RecentBoardResponse> recentBoard = mainPageMapper.recent();
-		
-		return recentBoard;
+		List<RecentBoardResponse> qnaPosts = mainPageMapper.getRecentPosts(BoardType.QNA);
+	    List<RecentBoardResponse> noticePosts = mainPageMapper.getRecentPosts(BoardType.NOTICE);
+	    List<RecentBoardResponse> communityPosts = mainPageMapper.getRecentPosts(BoardType.COMMUNITY);
+	    
+	    // 모든 결과를 하나의 리스트로 합치기
+	    List<RecentBoardResponse> allPosts = new ArrayList<>();
+	    allPosts.addAll(qnaPosts);
+	    allPosts.addAll(noticePosts);
+	    allPosts.addAll(communityPosts);
+	    
+	    return allPosts;
 	}
 	
 }
