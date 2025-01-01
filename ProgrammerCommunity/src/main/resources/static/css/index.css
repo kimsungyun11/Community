@@ -1,96 +1,80 @@
 @charset "UTF-8";
-/* 섹션 컨테이너 스타일 */
-.section-content {
-    background: white;
-    border-radius: 5px;
+
+/* 게시판 섹션 스타일 */
+.board-section {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
 }
 
 /* 섹션 헤더 스타일 */
 .section-header {
-    background-color: #f8f9fa;
-    padding: 10px 15px;
-    border-radius: 5px 5px 0 0;
     margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.section-header i {
-    color: #0d6efd;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid #eee;
 }
 
 .section-header h5 {
     margin: 0;
+    font-size: 18px;
     font-weight: 600;
+    color: #333;
+}
+
+/* 게시글 목록 스타일 */
+.post-list {
+    margin-top: 15px;
 }
 
 /* 게시글 아이템 스타일 */
 .post-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s;
-}
-
-.post-item:hover {
-    background-color: #f8f9fa;
-}
-
-.post-item:last-child {
-    border-bottom: none;
+    margin-bottom: 15px;
+    padding: 0 0 5px 0;
 }
 
 /* 게시글 메타 정보 스타일 */
 .post-meta {
+    margin-bottom: 5px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    font-size: 0.9em;
-    color: #666;
 }
 
-.likes-comments {
-    display: flex;
-    gap: 10px;
-}
-
-.likes-comments i {
-    color: #6c757d;
-}
-
-/* 사용자 이름 스타일 */
-.username {
-    color: #0d6efd;
+/* 사용자 ID 스타일 */
+.userId {
     font-weight: 500;
+    margin-right: 10px;
+    color: #333;
+}
+
+/* 작성 시간 스타일 */
+.post-time {
+    color: #666;
     font-size: 0.9em;
 }
 
 /* 게시글 제목 스타일 */
 .post-title {
-    color: #212529;
-    text-decoration: none;
-    font-size: 1rem;
-    margin: 8px 0;
     display: block;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.1em;
+    margin-top: 5px;
+    line-height: 1.4;
 }
 
 .post-title:hover {
-    color: #0d6efd;
+    color: #007bff;
+    text-decoration: none;
 }
 
-/* 날짜 스타일 */
-.post-date {
-    font-size: 0.8em;
-    color: #868e96;
+/* 구분선 스타일 */
+.post-divider {
+    margin: 15px 0;
+    border-top: 1px solid #eee;
 }
 
-/* 조회수, 댓글수 뱃지 스타일 */
-.badge-count {
-    font-size: 0.8em;
-    padding: 2px 6px;
-    border-radius: 10px;
-    background-color: #e9ecef;
-    color: #495057;
+.post-divider:last-child {
+    display: none;
 }
