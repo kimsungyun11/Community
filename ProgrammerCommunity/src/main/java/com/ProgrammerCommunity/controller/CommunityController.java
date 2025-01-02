@@ -56,7 +56,7 @@ public class CommunityController {
 	}
 	
 	// 글 작성 페이지 이동
-	@GetMapping("write")
+	@GetMapping("/write")
 	public String communityWrite( HttpSession session, Model model ) {
 		
 		Integer user = (Integer) session.getAttribute("userId");
@@ -71,7 +71,7 @@ public class CommunityController {
 	}
 	
 	// 글 작성
-	@PostMapping("create")
+	@PostMapping("/create")
 	public String communityCreate( HttpSession session, @ModelAttribute("dto") CommunityCreateResponse dto, Model model ) {
 		
 		// 유저 확인
@@ -85,7 +85,7 @@ public class CommunityController {
 	}
 	
 	// 글 상세 페이지
-	@GetMapping("detail/{postId}")
+	@GetMapping("/detail/{postId}")
 	public String communityDetail( @PathVariable("postId") Integer postId, Model model ) {
 		
 		CommunityDetailResponse detailPage = service.communityDetail( postId );

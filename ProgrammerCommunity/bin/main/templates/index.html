@@ -21,7 +21,7 @@
                            <span class="userId" th:text="'사용자_' + ${post.userId}"></span>
                            <span class="post-time" th:text="${#temporals.format(post.createdAt, 'MM-dd HH:mm')}">시간</span>
                        </div>
-                       <a th:href="@{'/posts/' + ${post.postId}}" class="post-title">
+                       <a th:href="@{'/qna/detail/' + ${post.postId}}" class="post-title">
                            <span th:text="${post.title}">제목</span>
                        </a>
                        <hr class="post-divider">
@@ -42,7 +42,7 @@
                            <span class="userId" th:text="'사용자_' + ${post.userId}"></span>
                            <span class="post-time" th:text="${#temporals.format(post.createdAt, 'MM-dd HH:mm')}">시간</span>
                        </div>
-                       <a th:href="@{'/posts/' + ${post.postId}}" class="post-title">
+                       <a th:href="@{'/community/detail/' + ${post.postId}}" class="post-title">
                            <span th:text="${post.title}">제목</span>
                        </a>
                        <hr class="post-divider">
@@ -65,7 +65,7 @@
                            <span class="userId" th:text="'사용자_' + ${post.userId}"></span>
                            <span class="post-time" th:text="${#temporals.format(post.createdAt, 'MM-dd HH:mm')}">시간</span>
                        </div>
-                       <a th:href="@{'/posts/' + ${post.postId}}" class="post-title">
+                       <a th:href="@{'/notice/detail/' + ${post.postId}}" class="post-title">
                            <span th:text="${post.title}">제목</span>
                        </a>
                        <hr class="post-divider">
